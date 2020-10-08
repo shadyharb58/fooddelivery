@@ -455,7 +455,7 @@ class _RestaurantState extends State<Restaurant> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items)
+                                        ? addtocart.add(items , routes['resprice'] ,  routes['resid'])
                                         : addtocart.reset(items);
                                   },
                                   child: Icon(

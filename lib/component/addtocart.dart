@@ -6,8 +6,11 @@ class AddToCart with ChangeNotifier {
   int _price = 0;
   Map quantity = {};
   Map active = {}; // Change Color Button
+  // for price delivet all resturants 
+  Map listpricedelivery = {} ; 
+  int _pricedelivery  = 0 ; 
 
-  void add(items) {
+  void add(items , pricedelivery , resid ) {
     // print(items) ;
     active[items['item_id']] = 1; // Acive Button any Change color To Red
     _price += int.parse(items['item_price'].toString());
@@ -20,7 +23,17 @@ class AddToCart with ChangeNotifier {
     } else {
       quantity[items['item_id']] = quantity[items['item_id']] + 1;
     }
-    print(_itemsnoreapt)  ; 
+    // For Price Delivery Restaurants 
+
+    if (listpricedelivery[resid] !=  int.parse(items['res_id'].toString())  ){
+        listpricedelivery[resid] = int.parse( items['res_id'].toString()) ; 
+              print(int.parse(listpricedelivery[resid].toString()) !=  int.parse(items['res_id'].toString()) ) ; 
+                _pricedelivery  += int.parse(pricedelivery.toString()) ; 
+    } 
+    
+    // print(items['res_id'])  ; 
+    print(_pricedelivery)  ; 
+    
     notifyListeners();
   }
 
@@ -33,7 +46,6 @@ class AddToCart with ChangeNotifier {
       _price -= int.parse(items['item_price'].toString());
       quantity[items['item_id']] = quantity[items['item_id']] - 1;
     }
-
     notifyListeners();
   }
 
@@ -61,6 +73,10 @@ class AddToCart with ChangeNotifier {
 
   List get basketnoreapt {
     return _itemsnoreapt;
+  }
+
+  int  get totalpricedelivery {
+    return _pricedelivery ; 
   }
 
   // Color button change

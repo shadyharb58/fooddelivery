@@ -26,7 +26,7 @@ class _OrdersState extends State<Orders> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           bottomNavigationBar: Container(
-            
+
               height: 60,
               color: Colors.red,
               child: Consumer<AddToCart>(builder: (context , addtocart  , child){
@@ -36,8 +36,6 @@ class _OrdersState extends State<Orders> {
                   onPressed: () async {
                     var data = { "listfood"  : addtocart.basketnoreapt  , "quantity" : addtocart.quantity } ; 
                    await  crud.addOrders("addorders", data) ; 
-
-
                   },
                   child:
                       Consumer<AddToCart>(builder: (context, addtocart, child) {
@@ -176,7 +174,7 @@ class _OrdersState extends State<Orders> {
                   children: [
                     Text("التوصيل ", style: TextStyle(fontSize: 20)),
                     Expanded(child: Container()),
-                    Text("مجاني",
+                    Text("${addtocart.totalpricedelivery}",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).primaryColor))

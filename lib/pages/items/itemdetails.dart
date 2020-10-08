@@ -169,7 +169,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(50)))),
                                 onTap: () {
-                                  addtocart.add(widget.items);
+                                  addtocart.add(widget.items , widget.deliveryprice , widget.items['res_id']);
                                 },
                               );
                             },
@@ -184,7 +184,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           minWidth: 200,
                           color: Colors.red,
                           onPressed: () {
-                            addtocart.add(widget.items);
+                            addtocart.add(widget.items  , widget.deliveryprice, widget.items['res_id']);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

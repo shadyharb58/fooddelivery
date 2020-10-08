@@ -156,7 +156,7 @@ class _ItemsCatState extends State<ItemsCat> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items)
+                                        ? addtocart.add(items , items['res_price_delivery']  , items['res_id'])
                                         : addtocart.reset(items);
                                   },
                                   child: Icon(
