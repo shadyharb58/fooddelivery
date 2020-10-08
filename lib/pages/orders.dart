@@ -26,6 +26,7 @@ class _OrdersState extends State<Orders> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           bottomNavigationBar: Container(
+            
               height: 60,
               color: Colors.red,
               child: Consumer<AddToCart>(builder: (context , addtocart  , child){
