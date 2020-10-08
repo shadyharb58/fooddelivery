@@ -132,7 +132,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               builder: (context, addtocart, child) {
                             return InkWell(
                               onTap: () {
-                                addtocart.remove(widget.items);
+                                addtocart.remove(widget.items, widget.deliveryprice , widget.items['res_id']);
                               },
                               child: Container(
                                   padding: EdgeInsets.all(5),

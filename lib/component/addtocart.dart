@@ -37,7 +37,7 @@ class AddToCart with ChangeNotifier {
     notifyListeners();
   }
 
-  void remove(items) {
+  void remove(items  , pricedelivery , resid ) {
     if (quantity[items['item_id']] == 1) {
       _itemsnoreapt.removeWhere((item) => item['item_id'] == items['item_id']);
        active[items['item_id']] = 0;
