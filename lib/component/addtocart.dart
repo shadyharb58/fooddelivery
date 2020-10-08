@@ -65,6 +65,14 @@ class AddToCart with ChangeNotifier {
             int.parse(items['item_price'].toString()));
     quantity[items['item_id']] = 0;
     active[items['item_id']] = 0; // unAcive Button any Change color To black
+
+    var value = _itemsnoreapt.where((element) => element['res_id'] == resid);
+
+    if (value.isEmpty) {
+      listpricedelivery[resid] = 0;
+      _pricedelivery -= int.parse(pricedelivery.toString());
+    }
+
     notifyListeners();
   }
 
