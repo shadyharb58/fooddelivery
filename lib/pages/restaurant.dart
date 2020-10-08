@@ -456,7 +456,7 @@ class _RestaurantState extends State<Restaurant> {
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
                                         ? addtocart.add(items , routes['resprice'] ,  routes['resid'])
-                                        : addtocart.reset(items);
+                                        : addtocart.reset(items, routes['resprice'] ,  routes['resid']);
                                   },
                                   child: Icon(
                                     Icons.add,

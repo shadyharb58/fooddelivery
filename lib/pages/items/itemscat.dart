@@ -157,7 +157,7 @@ class _ItemsCatState extends State<ItemsCat> {
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
                                         ? addtocart.add(items , items['res_price_delivery']  , items['res_id'])
-                                        : addtocart.reset(items);
+                                        : addtocart.reset(items, items['res_price_delivery'] , items['res_id']);
                                   },
                                   child: Icon(
                                     Icons.add,
