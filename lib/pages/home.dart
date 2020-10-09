@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
 
@@ -163,7 +164,9 @@ class _HomeState extends State<Home> {
                     Icons.search,
                     color: Colors.white,
                   ),
-                  onPressed: null)
+                  onPressed: () {
+                    showSearch(context: context, delegate: SearchGlobal()) ;
+                  })
             ],
           ),
           Text("الصفحة الرئيسية",
