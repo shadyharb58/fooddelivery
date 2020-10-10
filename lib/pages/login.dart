@@ -86,7 +86,6 @@ class _LoginState extends State<Login> {
   TextEditingController email = new TextEditingController();
   TextEditingController phone = new TextEditingController();
   TextEditingController password = new TextEditingController();
-  TextEditingController confirmpassword = new TextEditingController();
   GlobalKey<FormState> formstatesignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formstatesignup = new GlobalKey<FormState>();
 
@@ -128,10 +127,8 @@ class _LoginState extends State<Login> {
     if (formdata.validate()) {
       formdata.save();
       showloading(context);
-
       var responsebody =
           await crud.addUsers(email.text, password.text, username.text, file);
-
       if (responsebody['status'] == "success") {
         print("yes success");
         savePref(responsebody['username'], responsebody['email'],
@@ -462,14 +459,14 @@ class _LoginState extends State<Login> {
                     buildTextFormFieldAll(
                         "ادخل كلمة المرور", true, password, "password"),
                     // Start Text password CONFIRM
-                    Text(" تاكيد كلمة المرور ",
+                    Text(" ادخل رقم الهاتف",
                         style: TextStyle(
                             color: Colors.blue, fontWeight: FontWeight.w600)),
                     SizedBox(
                       height: 10,
                     ),
-                    buildTextFormFieldAll("تاكيد كلمة المرور", true,
-                        confirmpassword, "confirmpassword"),
+                    buildTextFormFieldAll(
+                        "ادخل رقم الهاتف هنا ", false, phone, "phone"),
                     // Start Text EMAIL
                     Text("البريد الالكتروني",
                         style: TextStyle(
@@ -479,8 +476,7 @@ class _LoginState extends State<Login> {
                     ),
                     buildTextFormFieldAll(
                         "ادخل البريد الالكتروني هنا ", false, email, "email"),
-                          buildTextFormFieldAll(
-                        "ادخل رقم الهاتف هنا ", false, phone, "phone"),
+
                     // End Text username
                   ],
                 ),
@@ -497,22 +493,18 @@ class _LoginState extends State<Login> {
       obscureText: pass,
       validator: (val) {
         if (type == "email") {
-         return  validInput(val, 4, 40, "يكون البريد الالكتروني", "email");
+          return validInput(val, 4, 40, "يكون البريد الالكتروني", "email");
         }
         if (type == "username") {
-         return validInput(val, 4, 30, "يكون اسم المستخدم");
+          return validInput(val, 4, 30, "يكون اسم المستخدم");
         }
         if (type == "password") {
-         return validInput(val, 4, 30, "يكون كلمة المرور");
+          return validInput(val, 4, 30, "يكون كلمة المرور");
         }
         if (type == "phone") {
-        return  validInput(val, 4, 30, "يكون رقم الهاتف", "phone");
+          return validInput(val, 4, 30, "يكون رقم الهاتف", "phone");
         }
-        if (type == "confirmpassword") {
-          if (val != password.text) {
-            return "كلمة المرور غير متطابقة";
-          }
-        }
+       
       },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(4),
