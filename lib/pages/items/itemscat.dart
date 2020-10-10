@@ -111,6 +111,8 @@ class _ItemsCatState extends State<ItemsCat> {
               image: items['item_image'],
               price: items['item_price'],
               items: items,
+              deliveryprice : items['res_price_delivery'] ,
+              deliveytime: items['res_time_delivery'],
             );
           }));
         },

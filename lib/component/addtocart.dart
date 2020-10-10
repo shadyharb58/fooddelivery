@@ -45,14 +45,18 @@ class AddToCart with ChangeNotifier {
       if (quantity[items['item_id']] > 0) {
         _price -= int.parse(items['item_price'].toString());
         quantity[items['item_id']] = quantity[items['item_id']] - 1;
-      }
-      // For Price Delivery Restaurants
+
+          // For Price Delivery Restaurants
       var value = _itemsnoreapt.where((element) => element['res_id'] == resid);
 
       if (value.isEmpty) {
         listpricedelivery[resid] = 0;
         _pricedelivery -= int.parse(pricedelivery.toString());
       }
+
+      
+      }
+    
 
       notifyListeners();
     }

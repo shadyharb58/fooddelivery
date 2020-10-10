@@ -80,14 +80,14 @@ class _RestaurantState extends State<Restaurant> {
                         ),
                         buildListHorizontal(routes),
                         Container(
-                          margin: EdgeInsets.only(top:10),
+                            margin: EdgeInsets.only(top: 10),
                             child: Text(
-                          "  الاكلات الاكثر مبيعا  ",
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800),
-                        )),
+                              "  الاكلات الاكثر مبيعا  ",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800),
+                            )),
                         SizedBox(height: 20),
                         Container(
                           height: 270,
@@ -105,7 +105,7 @@ class _RestaurantState extends State<Restaurant> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, i) {
                                         return buildImageItems(
-                                            mdw, snapshot.data[i], routes);
+                                            mdw, snapshot.data[i]);
                                       });
                                 }
                               }
@@ -148,7 +148,7 @@ class _RestaurantState extends State<Restaurant> {
                                     itemCount: snapshot.data.length,
                                     itemBuilder: (context, i) {
                                       return buildListItems(
-                                          snapshot.data[i], routes);
+                                          snapshot.data[i]);
                                     });
                               }
                             }
@@ -252,7 +252,9 @@ class _RestaurantState extends State<Restaurant> {
                     size: 18,
                   ),
                   Text(
-                     int.parse(routes['resprice']) == 0 ?  " مجانا " : " ${int.parse(routes['resprice'])} د.ك" ,   
+                    int.parse(routes['resprice']) == 0
+                        ? " مجانا "
+                        : " ${int.parse(routes['resprice'])} د.ك",
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
@@ -282,10 +284,12 @@ class _RestaurantState extends State<Restaurant> {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return ItemCatRes(
-                          catid: snapshot.data[i]['cat_id'],
-                          catname: snapshot.data[i]['cat_name'],
-                          resid: routes['resid'],
-                          resname: routes['resname']);
+                        catid: snapshot.data[i]['cat_id'],
+                        catname: snapshot.data[i]['cat_name'],
+                        resid: routes['resid'],
+                        resname: routes['resname'],
+ 
+                      );
                     }));
                   },
                   child: Container(
@@ -313,7 +317,7 @@ class _RestaurantState extends State<Restaurant> {
     );
   }
 
-  InkWell buildImageItems(mdw, Map items, Map routes) {
+  InkWell buildImageItems(mdw, Map items) {
     return InkWell(
         onTap: () {
           return Navigator.of(context)
@@ -325,8 +329,8 @@ class _RestaurantState extends State<Restaurant> {
               image: items['item_image'],
               price: items['item_price'],
               items: items,
-              deliveryprice:routes['resprice'] , 
-              deliveytime: routes['restime'],
+              deliveryprice: items['res_price_delivery'],
+              deliveytime: items['res_time_delivery'],
             );
           }));
         },
@@ -376,7 +380,7 @@ class _RestaurantState extends State<Restaurant> {
                           size: 18,
                         ),
                         Text(
-                          " ${routes['restime']} - ${int.parse(routes['restime']) + 15} دقيقة   ",
+                          " ${items['res_time_delivery']} - ${int.parse(items['res_time_delivery']) + 15} دقيقة   ",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                         Icon(
@@ -384,7 +388,9 @@ class _RestaurantState extends State<Restaurant> {
                           size: 18,
                         ),
                         Text(
-                           int.parse(routes['resprice']) == 0 ?  " مجانا " : " ${int.parse(routes['resprice'])} د.ك" ,   
+                          int.parse(items['res_price_delivery']) == 0
+                              ? " مجانا "
+                              : " ${int.parse(items['res_price_delivery'])} د.ك",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ],
@@ -395,7 +401,7 @@ class _RestaurantState extends State<Restaurant> {
         ));
   }
 
-  Container buildListItems(Map items, Map routes) {
+  Container buildListItems(Map items ) {
     return Container(
       child: InkWell(
         onTap: () {
@@ -408,8 +414,8 @@ class _RestaurantState extends State<Restaurant> {
               image: items['item_image'],
               price: items['item_price'],
               items: items,
-              deliveryprice:routes['resprice'] , 
-              deliveytime: routes['restime'],
+              deliveryprice: items['res_price_delivery'],
+              deliveytime: items['res_time_delivery'],
             );
           }));
         },
@@ -455,8 +461,12 @@ class _RestaurantState extends State<Restaurant> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items , routes['resprice'] ,  routes['resid'])
-                                        : addtocart.reset(items, routes['resprice'] ,  routes['resid']);
+                                        ? addtocart.add(items,
+                                           items['res_price_delivery'], items['res_id'])
+                                        : addtocart.reset(
+                                            items,
+                                            items['res_price_delivery'],
+                                            items['res_id']);
                                   },
                                   child: Icon(
                                     Icons.add,
@@ -494,7 +504,7 @@ class _RestaurantState extends State<Restaurant> {
                             size: 16,
                           ),
                           Text(
-                              " ${routes['restime']} - ${int.parse(routes['restime']) + 15} دقيقة   ",
+                              " ${items['res_time_delivery']} - ${int.parse(items['res_time_delivery']) + 15} دقيقة   ",
                               style: TextStyle(fontSize: 12)),
                         ],
                       )

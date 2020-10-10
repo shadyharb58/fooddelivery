@@ -7,9 +7,11 @@ import 'package:fooddelivery/component/addtocart.dart';
 class ItemCatRes extends StatefulWidget {
   final catid;
   final catname;
-  final resid ; 
-  final resname ; 
-  ItemCatRes({Key key, this.catid, this.catname , this.resid  , this.resname}) : super(key: key);
+  final resid;
+  final resname;
+
+  ItemCatRes({Key key, this.catid, this.catname, this.resid, this.resname})
+      : super(key: key);
   @override
   _ItemCatResState createState() => _ItemCatResState();
 }
@@ -20,7 +22,7 @@ class _ItemCatResState extends State<ItemCatRes> {
 
   @override
   void initState() {
-    data = {"catid": widget.catid  , "resid" : widget.resid};
+    data = {"catid": widget.catid, "resid": widget.resid};
 
     super.initState();
   }
@@ -33,40 +35,40 @@ class _ItemCatResState extends State<ItemCatRes> {
           appBar: AppBar(
             title: Text('${widget.catname}'),
           ),
-           bottomNavigationBar: Container(
-            height: 60,
-            color: Colors.red,
-            child: MaterialButton(
-                minWidth: 200,
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  Navigator.of(context).pushNamed("orders");
-                },
-                child:
-                    Consumer<AddToCart>(builder: (context, addtocart, child) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.add_shopping_cart,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        " السلة ",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      addtocart.totalprice == null
-                          ? SizedBox(
-                              width: 1,
-                            )
-                          : Text(
-                              "${addtocart.totalprice} دنيار كويتي",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 23),
-                            ),
-                    ],
-                  );
-                }))),
+          bottomNavigationBar: Container(
+              height: 60,
+              color: Colors.red,
+              child: MaterialButton(
+                  minWidth: 200,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("orders");
+                  },
+                  child:
+                      Consumer<AddToCart>(builder: (context, addtocart, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.add_shopping_cart,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " السلة ",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        addtocart.totalprice == null
+                            ? SizedBox(
+                                width: 1,
+                              )
+                            : Text(
+                                "${addtocart.totalprice} دنيار كويتي",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 23),
+                              ),
+                      ],
+                    );
+                  }))),
           body: Container(
             child: FutureBuilder(
               future: crud.writeData("items", data),
@@ -113,6 +115,8 @@ class _ItemCatResState extends State<ItemCatRes> {
               image: items['item_image'],
               price: items['item_price'],
               items: items,
+              deliveryprice: items['res_price_delivery'],
+              deliveytime: items['res_time_delivery'],
             );
           }));
         },
@@ -158,8 +162,14 @@ class _ItemCatResState extends State<ItemCatRes> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items , items['res_price_delivery'] , items['res_id'])
-                                        : addtocart.reset(items, items['res_price_delivery'] , items['res_id']);
+                                        ? addtocart.add(
+                                            items,
+                                            items['res_price_delivery'],
+                                            items['res_id'])
+                                        : addtocart.reset(
+                                            items,
+                                            items['res_price_delivery'],
+                                            items['res_id']);
                                   },
                                   child: Icon(
                                     Icons.add,

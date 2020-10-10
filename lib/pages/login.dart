@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/valid.dart';
 import 'package:fooddelivery/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
@@ -83,6 +84,7 @@ class _LoginState extends State<Login> {
 
   TextEditingController username = new TextEditingController();
   TextEditingController email = new TextEditingController();
+  TextEditingController phone = new TextEditingController();
   TextEditingController password = new TextEditingController();
   TextEditingController confirmpassword = new TextEditingController();
   GlobalKey<FormState> formstatesignin = new GlobalKey<FormState>();
@@ -96,58 +98,6 @@ class _LoginState extends State<Login> {
     print(preferences.getString("username"));
     print(preferences.getString("email"));
     print(preferences.getString("id"));
-  }
-
-  String validglobal(String val) {
-    if (val.isEmpty) {
-      return "field can't empty";
-    }
-  }
-
-  String validusername(String val) {
-    if (val.trim().isEmpty) {
-      return "لا يمكن ان يكون اسم المستخدم فارغ ";
-    }
-    if (val.trim().length < 4) {
-      return "لا يمكن ان يكون اسم المستخدم اقل من 4 احرف ";
-    }
-    if (val.trim().length > 20) {
-      return "لا يمكن ان يكون اسم المستخدم اكبر من 20 احرف ";
-    }
-  }
-
-  String validpassword(String val) {
-    if (val.trim().isEmpty) {
-      return "لا يمكن ان تكون كلمة المرور فارغة ";
-    }
-    if (val.trim().length < 4) {
-      return "لا يمكن ان تكون كلمة المرور اقل من 4 احرف";
-    }
-    if (val.trim().length > 20) {
-      return "لا يمكن ان تكون كلمة المرور اكبر من 20 حرف";
-    }
-  }
-
-  String validconfirmpassword(String val) {
-    if (val != password.text) {
-      return "كلمة المرور غير متطابقة";
-    }
-  }
-
-  String validemail(String val) {
-    if (val.trim().isEmpty) {
-      return " لا يمكن ان يكون البريد الالكتوني فارغ ";
-    }
-    if (val.trim().length < 4) {
-      return " لا يمكن ان يكون البريد الالكتروني اقل من 4 احرف  ";
-    }
-    if (val.trim().length > 20) {
-      return "لا يمكن ان يكون البريد الالكتروني اكبر من 20 حرف  ";
-    }
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(val)) {
-      return " عنوان البريد غير صحيح يجب ان يكون على سبيل المثال مثل (example@gmail.com)";
-    }
   }
 
   signin() async {
@@ -178,16 +128,16 @@ class _LoginState extends State<Login> {
     if (formdata.validate()) {
       formdata.save();
       showloading(context);
-  
-       var responsebody = await crud.addUsers(email.text, password.text, username.text, file) ;
+
+      var responsebody =
+          await crud.addUsers(email.text, password.text, username.text, file);
 
       if (responsebody['status'] == "success") {
         print("yes success");
-           savePref(responsebody['username'], responsebody['email'],
+        savePref(responsebody['username'], responsebody['email'],
             responsebody['id']);
         Navigator.of(context).pushNamed("home");
       } else {
-         
         showdialogall(context, "خطأ", " البريد الالكتروني موجود سابقا ");
       }
     } else {
@@ -440,7 +390,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     buildTextFormFieldAll(
-                        "ادخل البريد الالكتروني", false, email, validemail),
+                        "ادخل البريد الالكتروني", false, email, "email"),
                     // End Text username
                     SizedBox(
                       height: 10,
@@ -453,7 +403,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     buildTextFormFieldAll(
-                        "ادخل كلمة المرور", true, password, validpassword),
+                        "ادخل كلمة المرور", true, password, "password"),
                     // End Text username
                   ],
                 ),
@@ -497,7 +447,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     buildTextFormFieldAll(
-                        "ادخل اسم المستخدم", false, username, validusername),
+                        "ادخل اسم المستخدم", false, username, "username"),
                     // End Text username
                     SizedBox(
                       height: 10,
@@ -510,7 +460,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     buildTextFormFieldAll(
-                        "ادخل كلمة المرور", true, password, validpassword),
+                        "ادخل كلمة المرور", true, password, "password"),
                     // Start Text password CONFIRM
                     Text(" تاكيد كلمة المرور ",
                         style: TextStyle(
@@ -519,7 +469,7 @@ class _LoginState extends State<Login> {
                       height: 10,
                     ),
                     buildTextFormFieldAll("تاكيد كلمة المرور", true,
-                        confirmpassword, validconfirmpassword),
+                        confirmpassword, "confirmpassword"),
                     // Start Text EMAIL
                     Text("البريد الالكتروني",
                         style: TextStyle(
@@ -527,8 +477,10 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       height: 10,
                     ),
-                    buildTextFormFieldAll("ادخل البريد الالكتروني هنا ", false,
-                        email, validemail),
+                    buildTextFormFieldAll(
+                        "ادخل البريد الالكتروني هنا ", false, email, "email"),
+                          buildTextFormFieldAll(
+                        "ادخل رقم الهاتف هنا ", false, phone, "phone"),
                     // End Text username
                   ],
                 ),
@@ -539,11 +491,29 @@ class _LoginState extends State<Login> {
   }
 
   TextFormField buildTextFormFieldAll(String myhinttext, bool pass,
-      TextEditingController myController, myvalid) {
+      TextEditingController myController, String type) {
     return TextFormField(
       controller: myController,
       obscureText: pass,
-      validator: myvalid,
+      validator: (val) {
+        if (type == "email") {
+         return  validInput(val, 4, 40, "يكون البريد الالكتروني", "email");
+        }
+        if (type == "username") {
+         return validInput(val, 4, 30, "يكون اسم المستخدم");
+        }
+        if (type == "password") {
+         return validInput(val, 4, 30, "يكون كلمة المرور");
+        }
+        if (type == "phone") {
+        return  validInput(val, 4, 30, "يكون رقم الهاتف", "phone");
+        }
+        if (type == "confirmpassword") {
+          if (val != password.text) {
+            return "كلمة المرور غير متطابقة";
+          }
+        }
+      },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(4),
           hintText: myhinttext,
