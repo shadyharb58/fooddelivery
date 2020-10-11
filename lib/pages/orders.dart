@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:fooddelivery/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../component/addtocart.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Orders extends StatefulWidget {
   Orders({Key key}) : super(key: key);
@@ -15,7 +16,7 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  var userid, username;
+  var userid, username, lat, long;
 
   Crud crud = new Crud();
 
@@ -29,10 +30,19 @@ class _OrdersState extends State<Orders> {
     setState(() {});
   }
 
+  getLocation() async {
+    Position position =  await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      lat = position.latitude;
+      long = position.longitude;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getUser();
+    getLocation();
   }
 
   @override
@@ -51,13 +61,14 @@ class _OrdersState extends State<Orders> {
                       color: Theme.of(context).primaryColor,
                       onPressed: () async {
                         var data = {
-
                           "listfood": addtocart.basketnoreapt,
-                          "quantity": addtocart.quantity , 
-                          'userid' : userid , 
-                          'totalprice' : addtocart.sumtotalprice , // total price with price delivery 
-                          'resprice' : addtocart.resprice  ,
-
+                          "quantity": addtocart.quantity,
+                          'userid': userid,
+                          'totalprice': addtocart
+                              .sumtotalprice, // total price with price delivery
+                          'resprice': addtocart.resprice,
+                          'lat' : lat , 
+                          'long' : long
                         };
                         await crud.addOrders("addorders", data);
                       },
