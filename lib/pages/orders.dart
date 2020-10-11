@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 // my import
 
 import 'package:fooddelivery/crud.dart';
