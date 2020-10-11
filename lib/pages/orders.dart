@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 // my import
 
 import 'package:fooddelivery/crud.dart';
@@ -15,31 +16,25 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  
-  Crud crud = new Crud() ; 
-  
-  getUser() async{
+  var userid, username;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance() ; 
+  Crud crud = new Crud();
 
-    prefs.getString("id") ;
+  getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.getString('username') ; 
+    userid = prefs.getString("id");
 
-    setState(() {
-      
-    }); 
+    username = prefs.getString('username');
 
+    setState(() {});
   }
-  
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-     getUser()  ; 
+    getUser();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,36 +43,45 @@ class _OrdersState extends State<Orders> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           bottomNavigationBar: Container(
-
               height: 60,
               color: Colors.red,
-              child: Consumer<AddToCart>(builder: (context , addtocart  , child){
-                return MaterialButton(
-                  minWidth: 200,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: () async {
-                    var data = { "listfood"  : addtocart.basketnoreapt  , "quantity" : addtocart.quantity } ; 
-                   await  crud.addOrders("addorders", data) ; 
-                  },
-                  child:
-                      Consumer<AddToCart>(builder: (context, addtocart, child) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.payment,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                        Text(
-                          " الدفع ",
-                          style: TextStyle(color: Colors.white, fontSize: 23),
-                        ),
-                      ],
-                    );
-                  })) ; 
-              },)
-                  ),
+              child: Consumer<AddToCart>(
+                builder: (context, addtocart, child) {
+                  return MaterialButton(
+                      minWidth: 200,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () async {
+                        var data = {
+
+                          "listfood": addtocart.basketnoreapt,
+                          "quantity": addtocart.quantity , 
+                          'userid' : userid , 
+                          'totalprice' : addtocart.sumtotalprice , // total price with price delivery 
+                          'resprice' : addtocart.resprice  ,
+
+                        };
+                        await crud.addOrders("addorders", data);
+                      },
+                      child: Consumer<AddToCart>(
+                          builder: (context, addtocart, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.payment,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                            Text(
+                              " الدفع ",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 23),
+                            ),
+                          ],
+                        );
+                      }));
+                },
+              )),
           body: ListView(
             children: [
               Stack(
@@ -210,7 +214,7 @@ class _OrdersState extends State<Orders> {
                   children: [
                     Text(" التكلفة الكلية ", style: TextStyle(fontSize: 20)),
                     Expanded(child: Container()),
-                    Text("${addtocart.totalprice}  د.ك ",
+                    Text("${addtocart.sumtotalprice}  د.ك ",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).primaryColor))
