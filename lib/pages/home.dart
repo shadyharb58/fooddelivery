@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -21,6 +22,18 @@ class _HomeState extends State<Home> {
   Future getRestaurants() async {
     var responsebody = await crud.readData("restaurants");
     return responsebody;
+  }
+   checkSignIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString("id") == null) {
+      Navigator.of(context).pushReplacementNamed("login");
+    }
+  }
+  @override
+  void initState() {
+    checkSignIn() ; 
+    super.initState();
   }
 
   @override

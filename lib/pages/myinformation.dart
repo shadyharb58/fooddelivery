@@ -19,10 +19,17 @@ class _MyInformationState extends State<MyInformation> {
     username = prefs.getString("username");
     setState(() {});
   }
+   checkSignIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    if (prefs.getString("id") == null) {
+      Navigator.of(context).pushReplacementNamed("login");
+    }
+  }
   @override
   void initState() {
     getCurrentUserInformation();
+    checkSignIn() ; 
     super.initState();
   }
 

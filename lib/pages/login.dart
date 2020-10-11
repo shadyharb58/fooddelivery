@@ -55,6 +55,28 @@ class _LoginState extends State<Login> {
   File file;
   File myfile;
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => exit(0),
+                //  onPressed: () =>   Navigator.of(context).pop(true)  ,
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   Crud crud = new Crud();
 
   void _choosegallery() async {
@@ -127,15 +149,16 @@ class _LoginState extends State<Login> {
     if (formdata.validate()) {
       formdata.save();
       showloading(context);
-      var responsebody =
-          await crud.addUsers(email.text, password.text, username.text, file);
+      var responsebody = await crud.addUsers(
+          email.text, password.text, username.text, phone.text, file);
       if (responsebody['status'] == "success") {
         print("yes success");
         savePref(responsebody['username'], responsebody['email'],
             responsebody['id']);
         Navigator.of(context).pushNamed("home");
       } else {
-        showdialogall(context, "خطأ", " البريد الالكتروني موجود سابقا ");
+        showdialogall(
+            context, "خطأ", " البريد الالكتروني او رقم الهاتف موجود سابقا ");
       }
     } else {
       print("not valid");
@@ -173,181 +196,193 @@ class _LoginState extends State<Login> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(height: double.infinity, width: double.infinity),
-            buildPositionedtop(mdw),
-            buildPositionedBottom(mdw),
-            Container(
-                height: 1000,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                          child: Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                showsignin ? "تسجيل الدخول " : "انشاء حساب",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: showsignin ? 22 : 25),
-                              ))),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
+        body: WillPopScope(
+            child: Stack(
+              children: <Widget>[
+                Container(height: double.infinity, width: double.infinity),
+                buildPositionedtop(mdw),
+                buildPositionedBottom(mdw),
+                Container(
+                    height: 1000,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                              child: Container(
+                                  margin: EdgeInsets.only(top: 30),
+                                  child: Text(
+                                    showsignin ? "تسجيل الدخول " : "انشاء حساب",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: showsignin ? 22 : 25),
+                                  ))),
+                          Padding(
+                            padding: EdgeInsets.only(top: 20),
+                          ),
+                          buildContaineraAvatar(mdw),
+                          showsignin
+                              ? buildFormBoxSignIn(mdw)
+                              : buildFormBoxSignUp(mdw),
+                          Container(
+                              margin: EdgeInsets.only(top: 20),
+                              child: Column(
+                                children: <Widget>[
+                                  showsignin
+                                      ? InkWell(
+                                          onTap: () {},
+                                          child: Text(
+                                            "  ? هل نسيت كلمة المرور",
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18),
+                                          ))
+                                      : SizedBox(),
+                                  SizedBox(height: showsignin ? 12 : 0),
+                                  showsignin
+                                      ? SizedBox(height: 0)
+                                      : RaisedButton(
+                                          color: file == null
+                                              ? Colors.red
+                                              : Colors.blue,
+                                          onPressed: () {
+                                            return showbottommenu();
+                                          },
+                                          child: Text(
+                                            " اختيار صورة ",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                  RaisedButton(
+                                    color: showsignin
+                                        ? Colors.blue
+                                        : Colors.grey[700],
+                                    elevation: 10,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 40),
+                                    onPressed: showsignin ? signin : signup,
+                                    // onPressed: () => Navigator.of(context).pushNamed("home"),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Text(
+                                          showsignin
+                                              ? "تسجيل الدخول"
+                                              : "انشاء حساب",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(top: 4),
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: Icon(
+                                              Icons.arrow_forward,
+                                              color: Colors.white,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: RichText(
+                                        text: TextSpan(
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontFamily: 'Cairo'),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: showsignin
+                                                      ? "في حال ليس لديك حساب يمكنك "
+                                                      : "اذا كان لديك حساب يمكنك"),
+                                              TextSpan(
+                                                  recognizer: _changesign,
+                                                  text: showsignin
+                                                      ? " انشاء حساب من هنا  "
+                                                      : " تسجيل الدخول من هنا  ",
+                                                  style: TextStyle(
+                                                      color: Colors.blue,
+                                                      fontWeight:
+                                                          FontWeight.w700))
+                                            ]),
+                                      )),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  showsignin
+                                      ? Directionality(
+                                          textDirection: TextDirection.ltr,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                              ),
+                                              Expanded(
+                                                child: RaisedButton(
+                                                  padding: EdgeInsets.all(10),
+                                                  color: Colors.red[400],
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      // Image.asset("images/iconsocial/g.png" , width: 25 , height: 25,) ,
+                                                      Text(
+                                                        " Sign In Google ",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                              ),
+                                              Expanded(
+                                                child: RaisedButton(
+                                                  padding: EdgeInsets.all(10),
+                                                  color: Colors.blue[800],
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      // Image.asset("images/iconsocial/f.png" , width: 25 , height: 25,) ,
+                                                      Text(
+                                                        " Sign In facebook ",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                              ),
+                                            ],
+                                          ))
+                                      : Text("")
+                                ],
+                              )),
+                        ],
                       ),
-                      buildContaineraAvatar(mdw),
-                      showsignin
-                          ? buildFormBoxSignIn(mdw)
-                          : buildFormBoxSignUp(mdw),
-                      Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: <Widget>[
-                              showsignin
-                                  ? InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "  ? هل نسيت كلمة المرور",
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 18),
-                                      ))
-                                  : SizedBox(),
-                              SizedBox(height: showsignin ? 12 : 0),
-                              showsignin
-                                  ? SizedBox(height: 0)
-                                  : RaisedButton(
-                                      color: file == null
-                                          ? Colors.red
-                                          : Colors.blue,
-                                      onPressed: () {
-                                        return showbottommenu();
-                                      },
-                                      child: Text(
-                                        " اختيار صورة ",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                              RaisedButton(
-                                color:
-                                    showsignin ? Colors.blue : Colors.grey[700],
-                                elevation: 10,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 40),
-                                onPressed: showsignin ? signin : signup,
-                                // onPressed: () => Navigator.of(context).pushNamed("home"),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Text(
-                                      showsignin
-                                          ? "تسجيل الدخول"
-                                          : "انشاء حساب",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                    ),
-                                    Container(
-                                        margin: EdgeInsets.only(top: 4),
-                                        padding: EdgeInsets.only(right: 10),
-                                        child: Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
-                                        ))
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(top: 10),
-                                  child: RichText(
-                                    text: TextSpan(
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontFamily: 'Cairo'),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: showsignin
-                                                  ? "في حال ليس لديك حساب يمكنك "
-                                                  : "اذا كان لديك حساب يمكنك"),
-                                          TextSpan(
-                                              recognizer: _changesign,
-                                              text: showsignin
-                                                  ? " انشاء حساب من هنا  "
-                                                  : " تسجيل الدخول من هنا  ",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontWeight: FontWeight.w700))
-                                        ]),
-                                  )),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              showsignin
-                                  ? Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                          ),
-                                          Expanded(
-                                            child: RaisedButton(
-                                              padding: EdgeInsets.all(10),
-                                              color: Colors.red[400],
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  // Image.asset("images/iconsocial/g.png" , width: 25 , height: 25,) ,
-                                                  Text(
-                                                    " Sign In Google ",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16),
-                                                  )
-                                                ],
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                          ),
-                                          Expanded(
-                                            child: RaisedButton(
-                                              padding: EdgeInsets.all(10),
-                                              color: Colors.blue[800],
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  // Image.asset("images/iconsocial/f.png" , width: 25 , height: 25,) ,
-                                                  Text(
-                                                    " Sign In facebook ",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16),
-                                                  )
-                                                ],
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                          ),
-                                        ],
-                                      ))
-                                  : Text("")
-                            ],
-                          )),
-                    ],
-                  ),
-                ))
-          ],
-        ),
+                    ))
+              ],
+            ),
+            onWillPop: _onWillPop),
       ),
     );
   }
@@ -504,7 +539,6 @@ class _LoginState extends State<Login> {
         if (type == "phone") {
           return validInput(val, 4, 30, "يكون رقم الهاتف", "phone");
         }
-       
       },
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(4),

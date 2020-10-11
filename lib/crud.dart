@@ -91,7 +91,7 @@ class Crud {
     }
   }
 
-  Future addUsers(email, password, username, File imagefile) async {
+  Future addUsers(email, password, username, phone ,File imagefile) async {
     var stream = new http.ByteStream(imagefile.openRead());
     stream.cast();
     var length = await imagefile.length();
@@ -102,6 +102,7 @@ class Crud {
     request.fields["email"] = email;
     request.fields["password"] = password;
     request.fields["username"] = username;
+    request.fields["phone"] = phone;
     request.files.add(multipartFile);
     var myrequest = await request.send();
     var response = await http.Response.fromStream(myrequest);

@@ -3,6 +3,7 @@ import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/categories.dart';
 import 'package:fooddelivery/pages/home.dart';
 import 'package:fooddelivery/pages/myinformation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -35,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
       
   ];
 
+ 
+
   void onPageChanged(int page) {
     setState(() {
       this._pageIndex = page;
@@ -48,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+  
     _pageController = PageController(initialPage: _pageIndex);
     super.initState();
   }
