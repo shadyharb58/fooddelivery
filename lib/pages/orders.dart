@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // my import
 
 import 'package:fooddelivery/crud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../component/addtocart.dart';
 
 class Orders extends StatefulWidget {
@@ -16,7 +17,28 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   
   Crud crud = new Crud() ; 
+  
+  getUser() async{
 
+    SharedPreferences prefs = await SharedPreferences.getInstance() ; 
+
+    prefs.getString("id") ;
+
+    prefs.getString('username') ; 
+
+    setState(() {
+      
+    }); 
+
+  }
+  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     getUser()  ; 
+  }
 
 
   @override
