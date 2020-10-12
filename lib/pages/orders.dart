@@ -64,11 +64,11 @@ class _OrdersState extends State<Orders> {
                           "listfood": addtocart.basketnoreapt,
                           "quantity": addtocart.quantity,
                           'userid': userid,
-                          'totalprice': addtocart
-                              .sumtotalprice, // total price with price delivery
+                          'totalprice': addtocart.sumtotalprice, // total price with price delivery
                           'resprice': addtocart.resprice,
                           'lat' : lat , 
-                          'long' : long
+                          'long' : long , 
+                          'timenow' : DateTime.now().toString()
                         };
                         await crud.addOrders("addorders", data);
                       },
