@@ -24,9 +24,7 @@ class _OrdersState extends State<Orders> {
 
   getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     userid = prefs.getString("id");
-
     username = prefs.getString('username');
     setState(() {});
   }
