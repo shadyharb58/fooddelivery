@@ -18,6 +18,8 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   var userid, username, lat, long;
 
+  List users = new List() ; 
+
   Crud crud = new Crud();
 
   getUser() async {
@@ -26,7 +28,6 @@ class _OrdersState extends State<Orders> {
     userid = prefs.getString("id");
 
     username = prefs.getString('username');
-
     setState(() {});
   }
 
@@ -36,6 +37,10 @@ class _OrdersState extends State<Orders> {
       lat = position.latitude;
       long = position.longitude;
     });
+  }
+
+  getUserData() async {
+    users = await crud.readData("users") ; 
   }
 
   @override
