@@ -10,14 +10,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../component/addtocart.dart';
 import 'package:geolocator/geolocator.dart';
 
-class Orders extends StatefulWidget {
-  Orders({Key key}) : super(key: key);
+class Cart extends StatefulWidget {
+  Cart({Key key}) : super(key: key);
 
   @override
-  _OrdersState createState() => _OrdersState();
+  _CartState createState() => _CartState();
 }
 
-class _OrdersState extends State<Orders> {
+class _CartState extends State<Cart> {
   var userid, username, lat, long;
 
   List users = new List();
@@ -90,9 +90,7 @@ class _OrdersState extends State<Orders> {
                                     int.parse(
                                         users[0]['user_balance'].toString()) &&
                                 addtocart.basketnoreapt.isNotEmpty) {
-                                  
-                              await crud.addOrders("addorders", data);
-                              
+                              await crud.addOrders("checkout", data);
                             } else if (addtocart.basketnoreapt.isEmpty) {
                               showdialogall(
                                   context, "تنبيه", " لا يوجد اي منتج للشراء ");
@@ -273,7 +271,6 @@ class _OrdersState extends State<Orders> {
     }));
   }
 }
-
 
 /*
 function sendGCM($message, $fcm_id , $p_id, $p_name) {

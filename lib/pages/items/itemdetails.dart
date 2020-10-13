@@ -261,7 +261,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            return Navigator.of(context).pushNamed("orders") ;
+                            return Navigator.of(context).pushNamed("cart") ;
                           }),
                     ],
                   );

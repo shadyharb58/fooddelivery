@@ -38,7 +38,7 @@ class _ItemsCatState extends State<ItemsCat> {
                 minWidth: 200,
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  Navigator.of(context).pushNamed("orders");
+                  Navigator.of(context).pushNamed("cart");
                 },
                 child:
                     Consumer<AddToCart>(builder: (context, addtocart, child) {

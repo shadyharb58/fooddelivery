@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/pages/homescreen.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
-import 'package:fooddelivery/pages/orders.dart';
+import 'package:fooddelivery/pages/cart.dart';
 import 'package:provider/provider.dart';
 
 // Pages
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           "itemscat" : (context) => ItemsCat() , 
           "home": (context) => HomeScreen(),
           "restaurant": (context) => Restaurant(),
-          "orders" : (context) => Orders()
+          "cart" : (context) => Cart()
         },
       ),
     );
