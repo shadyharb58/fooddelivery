@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/alert.dart';
+
 import 'package:provider/provider.dart';
 
 // my import
@@ -18,27 +20,36 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   var userid, username, lat, long;
 
-  List users = new List() ; 
+  List users = new List();
 
   Crud crud = new Crud();
 
+  bool loading = true;
+
   getUser() async {
+    setState(() {
+      loading = true;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     userid = prefs.getString("id");
     username = prefs.getString('username');
-    setState(() {});
+    users.addAll(await crud.readDataWhere("users", userid));
+    await Future.delayed(Duration(seconds: 1));
+    print(users);
+    setState(() {
+      loading = false;
+    });
   }
 
   getLocation() async {
-    Position position =  await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     setState(() {
       lat = position.latitude;
       long = position.longitude;
     });
-  }
-
-  getUserData() async {
-    users = await crud.readData("users") ; 
   }
 
   @override
@@ -54,47 +65,66 @@ class _OrdersState extends State<Orders> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          bottomNavigationBar: Container(
-              height: 60,
-              color: Colors.red,
-              child: Consumer<AddToCart>(
-                builder: (context, addtocart, child) {
-                  return MaterialButton(
-                      minWidth: 200,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () async {
-                        var data = {
-                          "listfood": addtocart.basketnoreapt,
-                          "quantity": addtocart.quantity,
-                          'userid': userid,
-                          'totalprice': addtocart.sumtotalprice, // total price with price delivery
-                          'resprice': addtocart.resprice,
-                          'lat' : lat , 
-                          'long' : long , 
-                          'timenow' : DateTime.now().toString()
-                        };
-                        await crud.addOrders("addorders", data);
-                      },
-                      child: Consumer<AddToCart>(
-                          builder: (context, addtocart, child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.payment,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            Text(
-                              " الدفع ",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 23),
-                            ),
-                          ],
-                        );
-                      }));
-                },
-              )),
+          bottomNavigationBar: loading == false
+              ? Container(
+                  height: 60,
+                  color: Colors.red,
+                  child: Consumer<AddToCart>(
+                    builder: (context, addtocart, child) {
+                      return MaterialButton(
+                          minWidth: 200,
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () async {
+                            var data = {
+                              "listfood": addtocart.basketnoreapt,
+                              "quantity": addtocart.quantity,
+                              'userid': userid,
+                              'totalprice': addtocart
+                                  .sumtotalprice, // total price with price delivery
+                              'resprice': addtocart.resprice,
+                              'lat': lat,
+                              'long': long,
+                              'timenow': DateTime.now().toString()
+                            };
+                            if (int.parse(addtocart.sumtotalprice.toString()) <=
+                                    int.parse(
+                                        users[0]['user_balance'].toString()) &&
+                                addtocart.basketnoreapt.isNotEmpty) {
+                                  
+                              await crud.addOrders("addorders", data);
+                              
+                            } else if (addtocart.basketnoreapt.isEmpty) {
+                              showdialogall(
+                                  context, "تنبيه", " لا يوجد اي منتج للشراء ");
+                            } else {
+                              showdialogall(
+                                  context, "تنبيه", "الرصيد غير كافي");
+                              print(addtocart.basketnoreapt.toString());
+                            }
+                          },
+                          child: Consumer<AddToCart>(
+                              builder: (context, addtocart, child) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.payment,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                                Text(
+                                  " الدفع ",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 23),
+                                ),
+                              ],
+                            );
+                          }));
+                    },
+                  ))
+              : Center(
+                  child: CircularProgressIndicator(),
+                ),
           body: ListView(
             children: [
               Stack(
@@ -243,3 +273,44 @@ class _OrdersState extends State<Orders> {
     }));
   }
 }
+
+
+/*
+function sendGCM($message, $fcm_id , $p_id, $p_name) {
+	//$message = utf8_decode($message);
+    $url = 'https://fcm.googleapis.com/fcm/send';
+    $fields = array (
+            'registration_ids' => array (
+                     $fcm_id
+            ),
+'priority' =>'high',
+'content_available' => true,
+            'notification' => array (
+			"body" =>  $message,
+      		"title" =>  "Sale",
+			"click_action" => "FCM_PLUGIN_ACTIVITY",
+					"sound" => "default"
+            ),
+			 'data' => array (
+					"page_id" => $p_id ,
+					"page_name" => $p_name
+//			'message' => 'Hello World!'
+            )
+    );
+    $fields = json_encode ( $fields );
+    $headers = array (
+           // 'Authorization: key=' . "AIzaSyBUuLepXI4xjIuWBO78hagHX9ntj9j_mU4",
+		    'Authorization: key=' . "AAAA6G-rtk4:APA91bF8Z5QVsjsIaBYqG1LaCjfaD4nRgpV9WjJYW89XlzlgTS65ZbVum_F1dSrIi8mxroCblGJ2bonirYCOZeOzESPMUVWg9U1ukbPcZ29nThII3DNgxMf_Umj2_QTdxmHVJYoMq1iQ",
+            'Content-Type: application/json'
+    );
+    $ch = curl_init ();
+    curl_setopt ( $ch, CURLOPT_URL, $url );
+    curl_setopt ( $ch, CURLOPT_POST, true );
+    curl_setopt ( $ch, CURLOPT_HTTPHEADER, $headers );
+    curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+    curl_setopt ( $ch, CURLOPT_POSTFIELDS, $fields );
+    $result = curl_exec ( $ch );
+    return $result;
+    curl_close ( $ch );
+}
+*/

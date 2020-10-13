@@ -37,7 +37,7 @@ class AddToCart with ChangeNotifier {
 
     // Price for every resturants
 
-    if (resprice[items['res_id']] == null) {
+    if (resprice[items['res_id']] == null) { // {2 : }
       resprice[items['res_id']] = 0;
     }
 
@@ -61,10 +61,10 @@ class AddToCart with ChangeNotifier {
 
         // For Price Delivery Restaurants
         var value =
-            _itemsnoreapt.where((element) => element['res_id'] == resid);
+            _itemsnoreapt.where((element) => element['res_id'] == resid); 
 
         if (value.isEmpty) {
-          listpricedelivery[resid] = 0;
+          listpricedelivery[resid] = 0; 
           _pricedelivery -= int.parse(pricedelivery.toString());
         }
 

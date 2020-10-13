@@ -21,7 +21,6 @@ class Crud {
     if (type == "countall") {
       url = "http://${server_name}/countall.php";
     }
-
     var response = await http.get(url);
     if (response.statusCode == 200) {
       print(response.body);
@@ -47,9 +46,14 @@ class Crud {
       url = "http://${server_name}/items/items.php";
       data = {"resid": value};
     }
+    if (type == "users") {
+      url = "http://${server_name}/users/users.php";
+      data = {"userid": value};
+    }
+
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
       var responsebody = jsonDecode(response.body);
       return responsebody;
     } else {
@@ -84,14 +88,14 @@ class Crud {
     var response = await http.post(url, body: json.encode(data));
     if (response.statusCode == 200) {
       print(response.body);
-      var responsebody =  response.body  ; 
+      var responsebody = response.body;
       return responsebody;
     } else {
       print("page Not found");
     }
   }
 
-  Future addUsers(email, password, username, phone ,File imagefile) async {
+  Future addUsers(email, password, username, phone, File imagefile) async {
     var stream = new http.ByteStream(imagefile.openRead());
     stream.cast();
     var length = await imagefile.length();
