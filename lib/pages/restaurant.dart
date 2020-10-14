@@ -75,7 +75,7 @@ class _RestaurantState extends State<Restaurant> {
                           padding: EdgeInsets.all(10),
                           child: Text(
                             "الاقسام",
-                            style: TextStyle(color: Colors.red, fontSize: 20),
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                         ),
                         buildListHorizontal(routes),
@@ -83,10 +83,7 @@ class _RestaurantState extends State<Restaurant> {
                             margin: EdgeInsets.only(top: 10),
                             child: Text(
                               "  الاكلات الاكثر مبيعا  ",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800),
+                              style: Theme.of(context).textTheme.headline2,
                             )),
                         SizedBox(height: 20),
                         Container(
@@ -118,18 +115,14 @@ class _RestaurantState extends State<Restaurant> {
                           children: <Widget>[
                             Text(
                               "الوجبات",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500),
+                              style: Theme.of(context).textTheme.headline2,
                             ),
                             Expanded(
                               child: Container(),
                             ),
                             Text(
                               "روئية الجميع",
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.w500),
+                              style: Theme.of(context).textTheme.headline2,
                             ),
                           ],
                         ),

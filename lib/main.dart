@@ -27,13 +27,17 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
+          
         theme: ThemeData(
+          fontFamily: 'Cairo' , 
             // This is the theme of your application.
             // primarySwatch: Colors.blue,
             primaryColor: Color(0xffFE463D),
             textTheme: TextTheme(
+              headline1: TextStyle(fontSize:30),
+              headline2: TextStyle(fontSize:20 , color: Colors.red , fontWeight: FontWeight.w600),
               bodyText1: TextStyle(fontSize: 20),
-              bodyText2: TextStyle(fontSize: 15),
+              bodyText2: TextStyle(fontSize: 13),
             )),
         home: Login(),
         routes: {

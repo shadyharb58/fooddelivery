@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(10),
                         child: Text(
                           "الاقسام",
-                          style: TextStyle(color: Colors.red, fontSize: 20),
+                          style: Theme.of(context).textTheme.headline2,
                         ),
                       ),
                       buildListHorizontal(),
@@ -66,9 +66,7 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.only(top: 10, right: 15),
                           child: Text(
                             " المطاعم الاعلى تقييما ",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w600),
+                            style: Theme.of(context).textTheme.headline2,
                           )),
                       Container(
                         height: 260,
@@ -102,9 +100,7 @@ class _HomeState extends State<Home> {
                           padding: EdgeInsets.only(top: 10, right: 15),
                           child: Text(
                             " المطاعم الشعبية",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.w800),
+                            style:Theme.of(context).textTheme.headline2,
                           )),
                       Container(
                         height: 270,
