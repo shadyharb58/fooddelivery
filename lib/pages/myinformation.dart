@@ -19,17 +19,19 @@ class _MyInformationState extends State<MyInformation> {
     username = prefs.getString("username");
     setState(() {});
   }
-   checkSignIn() async {
+
+  checkSignIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getString("id") == null) {
       Navigator.of(context).pushReplacementNamed("login");
     }
   }
+
   @override
   void initState() {
     getCurrentUserInformation();
-    checkSignIn() ; 
+    checkSignIn();
     super.initState();
   }
 
@@ -50,11 +52,11 @@ class _MyInformationState extends State<MyInformation> {
                   child: Column(
                     children: [
                       buildListTile("حسابي", Icons.perm_identity),
-                      buildListTile("الطلبات", Icons.directions_car),
-                      buildListTile( "الفواتير والدفعات", Icons.receipt),
+                      buildListTile("الطلبات", Icons.directions_car , "myorders"),
+                      buildListTile("الفواتير والدفعات", Icons.receipt),
                       buildListTile("الاعدادات", Icons.settings),
-                 
-                      buildListTile("تسجيل الخروج", Icons.exit_to_app , "logout"),
+                      buildListTile(
+                          "تسجيل الخروج", Icons.exit_to_app, "logout"),
                     ],
                   ),
                 )
@@ -145,18 +147,23 @@ class _MyInformationState extends State<MyInformation> {
     );
   }
 
-  InkWell buildListTile(String text, IconData icon , [type]) {
+  InkWell buildListTile(String text, IconData icon, [type]) {
     return InkWell(
-      onTap: ()async {
-                 SharedPreferences preferences = await SharedPreferences.getInstance();
-                 preferences.remove("username") ; 
-                 preferences.remove("email") ; 
-                 preferences.remove("id") ; 
-                 Navigator.of(context).pushNamed("login") ; 
+      onTap: () async {
+        if (type == "logout") {
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          preferences.remove("username");
+          preferences.remove("email");
+          preferences.remove("id");
+          Navigator.of(context).pushNamed("login");
+        } else if (type == "myorders") {
+          Navigator.of(context).pushNamed("myorders");
+        }
       },
       child: Container(
           decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.black, width: .3))),
+              border:
+                  Border(bottom: BorderSide(color: Colors.black, width: .3))),
           child: ListTile(
             title: Text(
               " ${text} ",

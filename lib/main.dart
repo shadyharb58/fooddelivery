@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/pages/homescreen.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
 import 'package:fooddelivery/pages/cart.dart';
+import 'package:fooddelivery/pages/myorders.dart';
 import 'package:provider/provider.dart';
 
 // Pages
 import 'package:fooddelivery/pages/restaurant.dart';
 import 'package:fooddelivery/component/addtocart.dart';
-import 'package:fooddelivery/pages/test.dart';
-import './pages/login.dart';
-import './pages/home.dart';
 
- 
+import './pages/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,10 +37,11 @@ class MyApp extends StatelessWidget {
         home: Login(),
         routes: {
           "login": (context) => Login(),
-          "itemscat" : (context) => ItemsCat() , 
+          "itemscat": (context) => ItemsCat(),
           "home": (context) => HomeScreen(),
           "restaurant": (context) => Restaurant(),
-          "cart" : (context) => Cart()
+          "cart": (context) => Cart(),
+          "myorders": (context) => MyOrders()
         },
       ),
     );

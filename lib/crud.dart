@@ -50,10 +50,17 @@ class Crud {
       url = "http://${server_name}/users/users.php";
       data = {"userid": value};
     }
-
+    if (type == "orders") {
+      url = "http://${server_name}/orders/orders.php";
+      data = {"userid": value};
+    }
+    if (type == "orderdetails") {
+      url = "http://${server_name}/orders/orders_details.php";
+      data = {"orderid": value};
+    }
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
-      // print(response.body);
+      print(response.body);
       var responsebody = jsonDecode(response.body);
       return responsebody;
     } else {
@@ -132,7 +139,6 @@ class Crud {
           filename: basename(imagefile.path));
       request.files.add(multipartFile);
     }
-
     request.fields["username"] = username;
     request.fields["email"] = email;
     request.fields["password"] = password;
