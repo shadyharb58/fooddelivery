@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:fooddelivery/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../component/addtocart.dart';
+import '../../component/addtocart.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Cart extends StatefulWidget {
@@ -91,6 +91,14 @@ class _CartState extends State<Cart> {
                                         users[0]['user_balance'].toString()) &&
                                 addtocart.basketnoreapt.isNotEmpty) {
                               await crud.addOrders("checkout", data);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+
+                              List usersaftercheckout = await crud.readDataWhere("users", prefs.getString("id"));
+                              prefs.setString(
+                                "balance", usersaftercheckout[0]['user_balance'].toString() 
+                              );
+                              Navigator.of(context).pushReplacementNamed("myinformation") ; 
                             } else if (addtocart.basketnoreapt.isEmpty) {
                               showdialogall(
                                   context, "تنبيه", " لا يوجد اي منتج للشراء ");

@@ -9,7 +9,7 @@ class MyInformation extends StatefulWidget {
 }
 
 class _MyInformationState extends State<MyInformation> {
-  var username, id, email;
+  var username, id, email , balance ;
 
   getCurrentUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -17,6 +17,7 @@ class _MyInformationState extends State<MyInformation> {
     id = prefs.getString("id");
     email = prefs.getString("email");
     username = prefs.getString("username");
+    balance = prefs.getString("balance") ; 
     setState(() {});
   }
 
@@ -107,7 +108,7 @@ class _MyInformationState extends State<MyInformation> {
                 maxRadius: 30,
                 minRadius: 30,
                 child: Text(
-                  "N",
+                  "${ username != null ?  username[0].toString().toUpperCase() : username}",
                   style: TextStyle(color: Colors.red, fontSize: 30),
                 ),
                 backgroundColor: Colors.white,
@@ -133,7 +134,7 @@ class _MyInformationState extends State<MyInformation> {
                 child: Column(
                   children: [
                     Text(
-                      "N 11,500",
+                       "${ username != null ?  username[0].toString().toUpperCase() : username}  ${balance}",
                       style: TextStyle(color: Colors.white),
                     ),
                     Text("الرصيد", style: TextStyle(color: Colors.white))
@@ -155,6 +156,7 @@ class _MyInformationState extends State<MyInformation> {
           preferences.remove("username");
           preferences.remove("email");
           preferences.remove("id");
+          preferences.remove("balance");
           Navigator.of(context).pushNamed("login");
         } else if (type == "myorders") {
           Navigator.of(context).pushNamed("myorders");

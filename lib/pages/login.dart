@@ -111,14 +111,16 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formstatesignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formstatesignup = new GlobalKey<FormState>();
 
-  savePref(String username, String email, String id) async {
+  savePref(String username, String email, String id , String balance ) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("id", id);
     preferences.setString("username", username);
     preferences.setString("email", email);
+    preferences.setString("balance", balance) ; 
     print(preferences.getString("username"));
     print(preferences.getString("email"));
     print(preferences.getString("id"));
+    print(preferences.getString("balance"));
   }
 
   signin() async {
@@ -131,7 +133,7 @@ class _LoginState extends State<Login> {
       var responsebody = await crud.writeData("login", data);
       if (responsebody['status'] == "success") {
         savePref(responsebody['username'], responsebody['email'],
-            responsebody['id']);
+            responsebody['id'] , responsebody['balance']);
         Navigator.of(context).pushNamed("home");
       } else {
         print("login faild");
@@ -153,9 +155,7 @@ class _LoginState extends State<Login> {
           email.text, password.text, username.text, phone.text, file);
       if (responsebody['status'] == "success") {
         print("yes success");
-        savePref(responsebody['username'], responsebody['email'],
-            responsebody['id']);
-        Navigator.of(context).pushNamed("home");
+        Navigator.of(context).pushNamed("login");
       } else {
         showdialogall(
             context, "خطأ", " البريد الالكتروني او رقم الهاتف موجود سابقا ");
@@ -164,13 +164,11 @@ class _LoginState extends State<Login> {
       print("not valid");
     }
   }
-
   TapGestureRecognizer _changesign;
   bool showsignin = true;
 
   checkSignIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     if (prefs.getString("id") != null) {
       Navigator.of(context).pushReplacementNamed("home");
     }
