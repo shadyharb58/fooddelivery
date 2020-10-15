@@ -51,7 +51,7 @@ class Crud {
       data = {"userid": value};
     }
     if (type == "orders") {
-      url = "http://${server_name}/orders/orders.php";
+      url = "http://${server_name}/orders/ordersusers.php";
       data = {"userid": value};
     }
     if (type == "orderdetails") {

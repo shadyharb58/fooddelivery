@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             // primarySwatch: Colors.blue,
             primaryColor: Color(0xffFE463D),
             textTheme: TextTheme(
-              headline1: TextStyle(fontSize:30),
+              headline1: TextStyle(fontSize:10 , color: Colors.red),
               headline2: TextStyle(fontSize:20 , color: Colors.red , fontWeight: FontWeight.w600),
               bodyText1: TextStyle(fontSize: 20),
               bodyText2: TextStyle(fontSize: 13),
