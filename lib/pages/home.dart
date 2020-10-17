@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/crud.dart';
@@ -30,6 +32,29 @@ class _HomeState extends State<Home> {
       Navigator.of(context).pushReplacementNamed("login");
     }
   }
+
+    Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => exit(0),
+                //  onPressed: () =>   Navigator.of(context).pop(true)  ,
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   void initState() {
     checkSignIn() ; 
@@ -43,7 +68,7 @@ class _HomeState extends State<Home> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: ListView(
+        body: WillPopScope(child: ListView(
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -136,7 +161,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ],
-        ),
+        ), onWillPop: _onWillPop),
       ),
     );
   }

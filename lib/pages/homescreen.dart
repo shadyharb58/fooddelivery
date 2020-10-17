@@ -3,7 +3,7 @@ import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/categories.dart';
 import 'package:fooddelivery/pages/home.dart';
 import 'package:fooddelivery/pages/myinformation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+ 
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);

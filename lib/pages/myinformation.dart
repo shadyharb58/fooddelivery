@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/pages/editaccount.dart';
+import 'package:fooddelivery/pages/transfermoney.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyInformation extends StatefulWidget {
@@ -9,16 +12,22 @@ class MyInformation extends StatefulWidget {
 }
 
 class _MyInformationState extends State<MyInformation> {
-  var username, id, email , balance ;
+  Crud crud = new Crud();
+  var username, id, email, balance, phone, password;
 
+ 
   getCurrentUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    id = prefs.getString("id");
-    email = prefs.getString("email");
-    username = prefs.getString("username");
-    balance = prefs.getString("balance") ; 
-    setState(() {});
+     id = prefs.getString("id");
+    var responsebody = await crud.readDataWhere("users", id);
+    email = responsebody[0]['email'];
+    username = responsebody[0]['username'];
+    balance = responsebody[0]['user_balance'];
+    password = responsebody[0]['password'];
+    phone = responsebody[0]['user_phone'];
+    setState(() {
+      
+    });
   }
 
   checkSignIn() async {
@@ -43,7 +52,7 @@ class _MyInformationState extends State<MyInformation> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          body: ListView(
+          body: WillPopScope(child: ListView(
             children: [
               Stack(children: <Widget>[
                 buildTopRaduis(mdw),
@@ -52,9 +61,12 @@ class _MyInformationState extends State<MyInformation> {
                   margin: EdgeInsets.only(top: 200),
                   child: Column(
                     children: [
-                      buildListTile("حسابي", Icons.perm_identity),
-                      buildListTile("الطلبات", Icons.directions_car , "myorders"),
-                      buildListTile("الفواتير والدفعات", Icons.receipt),
+                      buildListTile(
+                          "حسابي", Icons.perm_identity, "editaccount"),
+                      buildListTile(
+                          "الطلبات", Icons.directions_car, "myorders"),
+                      buildListTile(
+                          "تحويل الرصيد", Icons.attach_money, "sendmoney"),
                       buildListTile("الاعدادات", Icons.settings),
                       buildListTile(
                           "تسجيل الخروج", Icons.exit_to_app, "logout"),
@@ -63,7 +75,9 @@ class _MyInformationState extends State<MyInformation> {
                 )
               ])
             ],
-          ),
+          ), onWillPop: (){
+            Navigator.of(context).pushNamed("home") ;
+          }),
         ));
   }
 
@@ -108,7 +122,7 @@ class _MyInformationState extends State<MyInformation> {
                 maxRadius: 30,
                 minRadius: 30,
                 child: Text(
-                  "${ username != null ?  username[0].toString().toUpperCase() : username}",
+                  "${username != null ? username[0].toString().toUpperCase() : username}",
                   style: TextStyle(color: Colors.red, fontSize: 30),
                 ),
                 backgroundColor: Colors.white,
@@ -134,7 +148,7 @@ class _MyInformationState extends State<MyInformation> {
                 child: Column(
                   children: [
                     Text(
-                       "${ username != null ?  username[0].toString().toUpperCase() : username}  ${balance}",
+                      "${username != null ? username[0].toString().toUpperCase() : username}  ${balance}",
                       style: TextStyle(color: Colors.white),
                     ),
                     Text("الرصيد", style: TextStyle(color: Colors.white))
@@ -157,9 +171,25 @@ class _MyInformationState extends State<MyInformation> {
           preferences.remove("email");
           preferences.remove("id");
           preferences.remove("balance");
+          preferences.remove("phone");
           Navigator.of(context).pushNamed("login");
         } else if (type == "myorders") {
           Navigator.of(context).pushNamed("myorders");
+        } else if (type == "editaccount") {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) {
+            return EditAccount(
+              email: email,
+              password: password,
+              phone: phone,
+              userid: id,
+              username: username,
+            );
+          }));
+        } else if (type == "sendmoney") {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+            return  TransferMoney(balance: balance,userid: id); 
+          }));
         }
       },
       child: Container(

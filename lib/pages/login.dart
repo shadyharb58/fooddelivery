@@ -111,12 +111,14 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formstatesignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formstatesignup = new GlobalKey<FormState>();
 
-  savePref(String username, String email, String id , String balance ) async {
+  savePref(String username, String email, String id , String balance , String phone  , String password) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("id", id);
     preferences.setString("username", username);
     preferences.setString("email", email);
     preferences.setString("balance", balance) ; 
+    preferences.setString("phone", phone) ; 
+    preferences.setString("password", password) ; 
     print(preferences.getString("username"));
     print(preferences.getString("email"));
     print(preferences.getString("id"));
@@ -133,7 +135,7 @@ class _LoginState extends State<Login> {
       var responsebody = await crud.writeData("login", data);
       if (responsebody['status'] == "success") {
         savePref(responsebody['username'], responsebody['email'],
-            responsebody['id'] , responsebody['balance']);
+            responsebody['id'] , responsebody['balance'] , responsebody['phone'] , responsebody['password']);
         Navigator.of(context).pushNamed("home");
       } else {
         print("login faild");

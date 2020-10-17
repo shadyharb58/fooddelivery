@@ -64,16 +64,39 @@ class ListOrders extends StatelessWidget {
           title: Text("معرف الطلبية : ${orders['orders_id']}"),
           trailing: Text(
             "${Jiffy(orders['orders_date']).fromNow()}",
-            style: TextStyle(color: Colors.blue),
+            style: TextStyle(color: Colors.grey),
           ),
-          isThreeLine: true ,
+          isThreeLine: true,
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               int.parse(orders['orders_status']) == 0
-                  ? Text("حالة الطلبية :  قيد التوصيل ")
-                  : Text("حالة الطلبية : تم التوصيل بنجاح")    , 
-                    Text("السعر الكلي : ${orders['orders_total']} نقطة"  , style: TextStyle(color: Colors.red),)
+                  ? RichText(
+                      text: TextSpan(
+                          style: TextStyle(
+                              fontFamily: 'Cairo', color: Colors.black),
+                          children: [
+                          TextSpan(text: "حالة الطلبية : ", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
+                          TextSpan(text: " قيد التوصيل", style: TextStyle(color: Colors.red , fontWeight: FontWeight.w600)),
+                        ]))
+                  : RichText(
+                      text: TextSpan(
+                          style: TextStyle(
+                              fontFamily: 'Cairo', color: Colors.black),
+                          children: [
+                          TextSpan(text: "حالة الطلبية : ", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
+                          TextSpan(text: " تم التوصيل", style: TextStyle(color: Colors.green , fontWeight: FontWeight.w600)),
+                        ])),
+              RichText(
+                  text: TextSpan(
+                      style:
+                          TextStyle(fontFamily: 'Cairo', color: Colors.black),
+                      children: [
+                    TextSpan(text: "السعر الكلي :", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
+                    TextSpan(
+                        text: " ${orders['orders_total']} نقطة",
+                        style: TextStyle(color: Colors.blue , fontWeight: FontWeight.w600)),
+                  ])),
             ],
           ),
         )
@@ -81,7 +104,3 @@ class ListOrders extends StatelessWidget {
     )));
   }
 }
-
-
-
- 

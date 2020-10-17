@@ -79,6 +79,8 @@ class Crud {
     }
     if (type == "signup") {
       url = "http://${server_name}/auth/signup.php";
+    }if (type == "transfermoney") {
+        url = "http://${server_name}/money/transfermoneyusers.php";  
     }
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
@@ -126,7 +128,7 @@ class Crud {
     }
   }
 
-  Future editUsers(username, email, password, id, bool issfile,
+  Future editUsers(username, email, password, phone, id, bool issfile,
       [File imagefile]) async {
     var uri = Uri.parse("http://${server_name}/users/editusers.php");
 
@@ -143,6 +145,7 @@ class Crud {
     request.fields["email"] = email;
     request.fields["password"] = password;
     request.fields["userid"] = id;
+    request.fields["phone"] = phone;
     var myrequest = await request.send();
     var response = await http.Response.fromStream(myrequest);
     if (myrequest.statusCode == 200) {
