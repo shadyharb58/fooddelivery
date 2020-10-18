@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'dart:io';
 
 class Crud {
+  
   var server_name = "talabpay.com/api";
   // var server_name = "10.0.2.2:8080/food";
 
