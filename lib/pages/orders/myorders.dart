@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // My Import
 import 'package:fooddelivery/crud.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyOrders extends StatefulWidget {
   MyOrders({Key key}) : super(key: key);
@@ -12,8 +13,17 @@ class MyOrders extends StatefulWidget {
 
 class _MyOrdersState extends State<MyOrders> {
   Crud crud = new Crud();
+  var userid ; 
   setLocal() async {
     await Jiffy.locale("ar");
+  }
+
+  getuserid() async{
+    SharedPreferences prefs  = await SharedPreferences.getInstance() ; 
+    setState(() {
+    userid = prefs.getString("id") ;
+    print(userid) ; 
+    });  
   }
 
   @override
@@ -21,6 +31,7 @@ class _MyOrdersState extends State<MyOrders> {
     // TODO: implement initState
     super.initState();
     setLocal();
+    getuserid()  ; 
   }
 
   @override
@@ -31,8 +42,8 @@ class _MyOrdersState extends State<MyOrders> {
           appBar: AppBar(
             title: Text('طلباتي'),
           ),
-          body: FutureBuilder(
-            future: crud.readDataWhere("orders", "1"),
+          body: userid == null ? Center(child: CircularProgressIndicator()) : FutureBuilder(
+            future: crud.readDataWhere("orders", userid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -44,7 +55,7 @@ class _MyOrdersState extends State<MyOrders> {
               }
               return Center(child: CircularProgressIndicator());
             },
-          ),
+          )
         ));
   }
 }
