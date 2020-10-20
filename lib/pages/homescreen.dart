@@ -3,7 +3,7 @@ import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/categories.dart';
 import 'package:fooddelivery/pages/home.dart';
 import 'package:fooddelivery/pages/myinformation.dart';
- 
+import 'package:fooddelivery/pages/restaurants/restaurants.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -16,27 +16,15 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   Crud crud = new Crud();
 
-  Future getCategories() async {
-    var responsebody = await crud.readData("categories");
-    return responsebody;
-  }
-
-  Future getRestaurants() async {
-    var responsebody = await crud.readData("restaurants");
-    return responsebody;
-  }
+ 
 
   int _pageIndex = 0;
   List<Widget> tabPages = [
-
-    Home() , 
-    Categories() , 
+    Home(),
+    Restaurants(),
+    Categories(),
     MyInformation()
-    
-      
   ];
-
- 
 
   void onPageChanged(int page) {
     setState(() {
@@ -51,15 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-  
-    _pageController = PageController(initialPage: _pageIndex);
+    _pageController = PageController(initialPage:_pageIndex);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     double mdw = MediaQuery.of(context).size.width;
-   
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -74,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.home), title: Text("الرئيسية")),
               BottomNavigationBarItem(
+                  icon: Icon(Icons.restaurant), title: Text("المطاعم")),
+              BottomNavigationBarItem(
                   icon: Icon(Icons.category), title: Text("الاقسام")),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person), title: Text("معلوماتي")),
@@ -86,5 +75,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
- 
-} 
+}

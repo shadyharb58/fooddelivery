@@ -35,7 +35,7 @@ class _CartState extends State<Cart> {
     userid = prefs.getString("id");
     username = prefs.getString('username');
     users.addAll(await crud.readDataWhere("users", userid));
-    await Future.delayed(Duration(seconds: 1));
+ 
     print(users);
     setState(() {
       loading = false;
@@ -93,12 +93,11 @@ class _CartState extends State<Cart> {
                               await crud.addOrders("checkout", data);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-
                               List usersaftercheckout = await crud.readDataWhere("users", prefs.getString("id"));
                               prefs.setString(
                                 "balance", usersaftercheckout[0]['user_balance'].toString() 
                               );
-                              Navigator.of(context).pushReplacementNamed("myinformation") ; 
+                              Navigator.of(context).pushReplacementNamed("myorders") ; 
                             } else if (addtocart.basketnoreapt.isEmpty) {
                               showdialogall(
                                   context, "تنبيه", " لا يوجد اي منتج للشراء ");
@@ -147,7 +146,16 @@ class _CartState extends State<Cart> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: addtocart.basketnoreapt.length,
                           itemBuilder: (context, i) {
-                            return Card(
+                            return Dismissible(key: UniqueKey(), 
+                            onDismissed: (direction){
+                                 
+                                 addtocart.reset(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']);
+                                  
+                  
+                                    addtocart.basketnoreapt.removeAt(i);
+                                
+                            },
+                            child: Card(
                                 child: Row(
                               children: [
                                 Expanded(
@@ -163,12 +171,25 @@ class _CartState extends State<Cart> {
                                   child: ListTile(
                                     title: Text(
                                         "${addtocart.basketnoreapt[i]['item_name']}"),
-                                    trailing: Text(
-                                        "${addtocart.quantity[addtocart.basketnoreapt[i]['item_id']]}"),
+                                    trailing: Container(
+                                      width: 110,
+                                      child: Row(children: [
+                                        IconButton(icon: Icon(Icons.remove), onPressed: (){
+                                            addtocart.remove(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']) ;
+                                        
+                                        }) , 
+                                        Text(
+                                          "${addtocart.quantity[addtocart.basketnoreapt[i]['item_id']]}")  ,
+                                        IconButton(icon: Icon(Icons.add), onPressed: (){
+                                            addtocart.add(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']) ;
+                                        }) , 
+
+                                      ],),
+                                    ),
                                   ),
                                 )
                               ],
-                            ));
+                            )));
                           }),
                     );
                   })

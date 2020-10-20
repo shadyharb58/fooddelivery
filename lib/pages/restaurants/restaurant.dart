@@ -58,7 +58,7 @@ class _RestaurantState extends State<Restaurant> {
                     ],
                   );
                 }))),
-        body: ListView(
+        body: WillPopScope(child: ListView(
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -140,8 +140,7 @@ class _RestaurantState extends State<Restaurant> {
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: snapshot.data.length,
                                     itemBuilder: (context, i) {
-                                      return buildListItems(
-                                          snapshot.data[i]);
+                                      return buildListItems(snapshot.data[i]);
                                     });
                               }
                             }
@@ -153,7 +152,9 @@ class _RestaurantState extends State<Restaurant> {
               ],
             )
           ],
-        ),
+        ), onWillPop: (){
+          Navigator.of(context).pushNamed("home");
+        }),
       ),
     );
   }
@@ -176,12 +177,15 @@ class _RestaurantState extends State<Restaurant> {
 
   Padding buildTopText(mdw) {
     return Padding(
-      padding: EdgeInsets.only(top: 10, right: 20),
+      padding: EdgeInsets.only(top: 10, right: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
+              IconButton(icon: Icon(Icons.arrow_back , color: Colors.white,), onPressed: (){
+                Navigator.pushNamed(context, "home") ; 
+              }),
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),
@@ -281,7 +285,6 @@ class _RestaurantState extends State<Restaurant> {
                         catname: snapshot.data[i]['cat_name'],
                         resid: routes['resid'],
                         resname: routes['resname'],
- 
                       );
                     }));
                   },
@@ -394,7 +397,7 @@ class _RestaurantState extends State<Restaurant> {
         ));
   }
 
-  Container buildListItems(Map items ) {
+  Container buildListItems(Map items) {
     return Container(
       child: InkWell(
         onTap: () {
@@ -454,8 +457,10 @@ class _RestaurantState extends State<Restaurant> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items,
-                                           items['res_price_delivery'], items['res_id'])
+                                        ? addtocart.add(
+                                            items,
+                                            items['res_price_delivery'],
+                                            items['res_id'])
                                         : addtocart.reset(
                                             items,
                                             items['res_price_delivery'],

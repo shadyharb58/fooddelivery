@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+ 
 showdialogall(context, String mytitle, String mycontent) {
   return showDialog(
       context: context,

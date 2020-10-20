@@ -42,11 +42,14 @@ class _MyOrdersState extends State<MyOrders> {
           appBar: AppBar(
             title: Text('طلباتي'),
           ),
-          body: userid == null ? Center(child: CircularProgressIndicator()) : FutureBuilder(
+          body: WillPopScope(child: userid == null ? Center(child: CircularProgressIndicator()) : FutureBuilder(
             future: crud.readDataWhere("orders", userid),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return ListView.builder(
+                  if (snapshot.data[0] == "faild"){
+                    return Center(child: Text("لا يوجد اي طلب " , style: TextStyle(color: Colors.red , fontSize: 30 ),)) ; 
+                  }
+                   return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListOrders(orders: snapshot.data[index]);
@@ -55,7 +58,9 @@ class _MyOrdersState extends State<MyOrders> {
               }
               return Center(child: CircularProgressIndicator());
             },
-          )
+          ), onWillPop: (){
+            Navigator.pushNamed(context, "home")   ; 
+          })
         ));
   }
 }

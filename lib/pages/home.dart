@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/crud.dart';
@@ -32,8 +31,15 @@ class _HomeState extends State<Home> {
       Navigator.of(context).pushReplacementNamed("login");
     }
   }
-
-    Future<bool> _onWillPop() {
+ 
+  @override
+  void initState() {
+    checkSignIn() ; 
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+           Future<bool> onWillPop() {
     return showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -54,17 +60,7 @@ class _HomeState extends State<Home> {
         ) ??
         false;
   }
-
-  @override
-  void initState() {
-    checkSignIn() ; 
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     double mdw = MediaQuery.of(context).size.width;
-
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -77,7 +73,7 @@ class _HomeState extends State<Home> {
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: <Widget>[ // ] ))])
                       Container(
                         margin: EdgeInsets.only(top: 200),
                         padding: EdgeInsets.all(10),
@@ -97,7 +93,7 @@ class _HomeState extends State<Home> {
                         height: 260,
                         margin: EdgeInsets.only(top: 10, right: 15),
                         child: FutureBuilder(
-                          future: getRestaurants(),
+                          future: crud.readData("restaurantstopselling"),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
@@ -124,14 +120,14 @@ class _HomeState extends State<Home> {
                       Padding(
                           padding: EdgeInsets.only(top: 10, right: 15),
                           child: Text(
-                            " المطاعم الشعبية",
+                            " المطاعم الاكثر مبيعيا",
                             style:Theme.of(context).textTheme.headline2,
                           )),
                       Container(
                         height: 270,
                         margin: EdgeInsets.only(top: 10, right: 15),
                         child: FutureBuilder(
-                          future: getRestaurants(),
+                          future: crud.readData("restaurantstopselling"),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
@@ -157,11 +153,14 @@ class _HomeState extends State<Home> {
                       ),
                     ],
                   ),
-                )
+                )   , 
+                
+            
+
               ],
             ),
           ],
-        ), onWillPop: _onWillPop),
+        ), onWillPop: onWillPop ),
       ),
     );
   }

@@ -9,7 +9,7 @@ import 'package:fooddelivery/pages/transfermoney.dart';
 import 'package:provider/provider.dart';
 
 // Pages
-import 'package:fooddelivery/pages/restaurant.dart';
+import 'package:fooddelivery/pages/restaurants/restaurant.dart';
 import 'package:fooddelivery/component/addtocart.dart';
 
 import './pages/login.dart';

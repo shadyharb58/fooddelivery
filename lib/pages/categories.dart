@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
+import 'dart:io';
 
 class Categories extends StatefulWidget {
   Categories({Key key}) : super(key: key);
@@ -13,11 +14,32 @@ class _CategoriesState extends State<Categories> {
   Crud crud = new Crud();
   @override
   Widget build(BuildContext context) {
+          Future<bool> onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => exit(0),
+                //  onPressed: () =>   Navigator.of(context).pop(true)  ,
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
     double mdw = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: ListView(
+        body: WillPopScope(child: ListView(
           children: <Widget>[
             Stack(children: <Widget>[
               buildTopRaduis(mdw),
@@ -49,7 +71,8 @@ class _CategoriesState extends State<Categories> {
            
             ])
           ],
-        ),
+        ), onWillPop: onWillPop),
+
       ),
     );
   }

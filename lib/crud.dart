@@ -4,7 +4,6 @@ import 'package:path/path.dart';
 import 'dart:io';
 
 class Crud {
-  
   // var server_name = "talabpay.com/api";
   var server_name = "10.0.2.2:8080/food";
 
@@ -21,6 +20,9 @@ class Crud {
     }
     if (type == "countall") {
       url = "http://${server_name}/countall.php";
+    }
+    if (type == "restaurantstopselling") {
+      url = "http://${server_name}/restaurants/restaurantstopselling.php";
     }
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -80,8 +82,9 @@ class Crud {
     }
     if (type == "signup") {
       url = "http://${server_name}/auth/signup.php";
-    }if (type == "transfermoney") {
-        url = "http://${server_name}/money/transfermoneyusers.php";  
+    }
+    if (type == "transfermoney") {
+      url = "http://${server_name}/money/transfermoneyusers.php";
     }
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {

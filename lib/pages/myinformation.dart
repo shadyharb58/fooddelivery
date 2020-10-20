@@ -3,6 +3,7 @@ import 'package:fooddelivery/crud.dart';
 import 'package:fooddelivery/pages/editaccount.dart';
 import 'package:fooddelivery/pages/transfermoney.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
 
 class MyInformation extends StatefulWidget {
   MyInformation({Key key}) : super(key: key);
@@ -48,6 +49,27 @@ class _MyInformationState extends State<MyInformation> {
   @override
   Widget build(BuildContext context) {
     double mdw = MediaQuery.of(context).size.width;
+      Future<bool> onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('No'),
+              ),
+              FlatButton(
+                onPressed: () => exit(0),
+                //  onPressed: () =>   Navigator.of(context).pop(true)  ,
+                child: Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
 
     return Directionality(
         textDirection: TextDirection.rtl,
@@ -75,9 +97,7 @@ class _MyInformationState extends State<MyInformation> {
                 )
               ])
             ],
-          ), onWillPop: (){
-            Navigator.of(context).pushNamed("home") ;
-          }),
+          ), onWillPop: onWillPop),
         ));
   }
 
