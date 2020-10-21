@@ -24,7 +24,7 @@ class _TransferMoneyState extends State<TransferMoney> {
     var formdata = formstate.currentState;
     if (formdata.validate()){
       formdata.save();
-      if (int.parse(widget.balance) < int.parse(units)) {
+      if (double.parse(widget.balance) < double.parse(units)) {
         showdialogall(context, "تنبيه"  , "رصيدك الحالي ${widget.balance} غير كافي ") ; 
       }else {
           Map data = {"phone": phone, "units": units, "userid": widget.userid};
@@ -103,7 +103,7 @@ class _TransferMoneyState extends State<TransferMoney> {
         },
         validator: (val) {
           if (type == "units") {
-            return validInput(val, 0, 4, "يكون تحويل الرصيد ");
+            return validInput(val, 0, 6, "يكون تحويل الرصيد " , "number");
           }
           if (type == "phone") {
             return validInput(val, 0, 20, "يكون رقم الهاتف", "phone");

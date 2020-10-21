@@ -322,7 +322,7 @@ class _HomeState extends State<Home> {
                           size: 18,
                         ),
                         Text(
-                          int.parse(resprice) == 0
+                          double.parse(resprice) == 0
                               ? " مجانا "
                               : " ${resprice} د.ك",
                           style: Theme.of(context).textTheme.bodyText2,

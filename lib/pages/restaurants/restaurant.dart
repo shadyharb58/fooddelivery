@@ -249,9 +249,9 @@ class _RestaurantState extends State<Restaurant> {
                     size: 18,
                   ),
                   Text(
-                    int.parse(routes['resprice']) == 0
+                    double.parse(routes['resprice']) == 0
                         ? " مجانا "
-                        : " ${int.parse(routes['resprice'])} د.ك",
+                        : " ${double.parse(routes['resprice'])} د.ك",
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
@@ -384,9 +384,9 @@ class _RestaurantState extends State<Restaurant> {
                           size: 18,
                         ),
                         Text(
-                          int.parse(items['res_price_delivery']) == 0
+                          double.parse(items['res_price_delivery']) == 0
                               ? " مجانا "
-                              : " ${int.parse(items['res_price_delivery'])} د.ك",
+                              : " ${double.parse(items['res_price_delivery'])} د.ك",
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ],
@@ -431,7 +431,7 @@ class _RestaurantState extends State<Restaurant> {
                 flex: 3,
                 child: ListTile(
                   trailing: Container(
-                    width: 80,
+                    width: 81,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

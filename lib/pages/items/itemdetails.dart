@@ -86,7 +86,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                             color: Colors.red,
                           ),
                           Text(
-                            int.parse(widget.deliveryprice) == 0   ?  " مجانا " : " ${widget.deliveryprice} د.ك"  ,
+                            double.parse(widget.deliveryprice) == 0   ?  " مجانا " : " ${widget.deliveryprice} د.ك"  ,
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
@@ -237,6 +237,9 @@ class _ItemDetailsState extends State<ItemDetails> {
         children: <Widget>[
           Row(
             children: <Widget>[
+                IconButton(icon: Icon(Icons.arrow_back , color: Colors.white,), onPressed: (){
+                Navigator.pop(context) ; 
+              }),
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),
@@ -244,6 +247,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                 builder: (context, addtocart, child) {
                   return Row(
                     children: [
+                      
                       Directionality(
                           textDirection: TextDirection.ltr,
                           child: addtocart.totalprice == null

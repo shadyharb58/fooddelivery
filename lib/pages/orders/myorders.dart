@@ -86,7 +86,7 @@ class ListOrders extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              int.parse(orders['orders_status']) == 0
+              double.parse(orders['orders_status']) == 0
                   ? RichText(
                       text: TextSpan(
                           style: TextStyle(

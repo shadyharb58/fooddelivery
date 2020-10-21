@@ -119,10 +119,7 @@ class _LoginState extends State<Login> {
     preferences.setString("balance", balance) ; 
     preferences.setString("phone", phone) ; 
     preferences.setString("password", password) ; 
-    print(preferences.getString("username"));
-    print(preferences.getString("email"));
-    print(preferences.getString("id"));
-    print(preferences.getString("balance"));
+
   }
 
   signin() async {

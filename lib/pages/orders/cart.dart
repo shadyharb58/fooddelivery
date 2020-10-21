@@ -86,8 +86,8 @@ class _CartState extends State<Cart> {
                               'long': long,
                               'timenow': DateTime.now().toString()
                             };
-                            if (int.parse(addtocart.sumtotalprice.toString()) <=
-                                    int.parse(
+                            if (double.parse(addtocart.sumtotalprice.toString()) <=
+                                    double.parse(
                                         users[0]['user_balance'].toString()) &&
                                 addtocart.basketnoreapt.isNotEmpty) {
                               await crud.addOrders("checkout", data);
@@ -224,6 +224,9 @@ class _CartState extends State<Cart> {
         children: <Widget>[
           Row(
             children: <Widget>[
+                   IconButton(icon: Icon(Icons.arrow_back , color: Colors.white,), onPressed: (){
+                Navigator.pop(context) ; 
+              }),
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),
