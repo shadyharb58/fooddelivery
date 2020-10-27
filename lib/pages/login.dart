@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/valid.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';

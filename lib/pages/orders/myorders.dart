@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // My Import
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

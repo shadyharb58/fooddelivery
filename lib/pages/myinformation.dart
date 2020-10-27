@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/editaccount.dart';
 import 'package:fooddelivery/pages/transfermoney.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -5,7 +5,7 @@ import 'package:fooddelivery/component/addtocart.dart';
 
 // My Import
 
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/items/itemdetails.dart';
 
 class Restaurant extends StatefulWidget {

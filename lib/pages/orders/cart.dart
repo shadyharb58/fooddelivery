@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 // my import
 
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../component/addtocart.dart';
 import 'package:geolocator/geolocator.dart';

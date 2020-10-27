@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 
 class RestaurantsList extends StatelessWidget {
   Crud crud = new Crud();

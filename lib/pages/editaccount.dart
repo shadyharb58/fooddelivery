@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
+ 
 import 'dart:io';
 // My Import
 import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/component/valid.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 
 class EditAccount extends StatefulWidget {
   final userid;

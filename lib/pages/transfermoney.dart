@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/component/valid.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TransferMoney extends StatefulWidget {

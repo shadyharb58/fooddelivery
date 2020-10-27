@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -198,7 +198,7 @@ class _HomeState extends State<Home> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    showSearch(context: context, delegate: SearchGlobal()) ;
+                    showSearch(context: context, delegate: DataSearch( type:  "items" , mdw: mdw ));
                   })
             ],
           ),

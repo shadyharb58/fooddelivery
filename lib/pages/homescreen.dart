@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fooddelivery/crud.dart';
+import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/categories.dart';
 import 'package:fooddelivery/pages/home.dart';
 import 'package:fooddelivery/pages/myinformation.dart';
