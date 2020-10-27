@@ -198,7 +198,7 @@ class _HomeState extends State<Home> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    showSearch(context: context, delegate: DataSearch( type:  "items" , mdw: mdw ));
+                    showSearch(context: context, delegate: DataSearch( type:  "restuarants" , mdw: mdw ));
                   })
             ],
           ),

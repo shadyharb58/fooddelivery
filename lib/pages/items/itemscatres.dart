@@ -136,7 +136,7 @@ class _ItemCatResState extends State<ItemCatRes> {
                 flex: 3,
                 child: ListTile(
                   trailing: Container(
-                    width: 80,
+                    width: 90,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

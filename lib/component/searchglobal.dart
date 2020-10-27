@@ -1,6 +1,8 @@
- 
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/crud.dart';
+import 'package:fooddelivery/pages/categories/categorieslistsearch.dart';
+import 'package:fooddelivery/pages/restaurants/restaurants.dart';
+import 'package:fooddelivery/pages/restaurants/restaurantslist.dart';
 
 class DataSearch extends SearchDelegate<Future<Widget>> {
   List<dynamic> list;
@@ -33,10 +35,12 @@ class DataSearch extends SearchDelegate<Future<Widget>> {
       icon: Icon(Icons.arrow_back),
     );
   }
+
   @override
   Widget buildResults(BuildContext context) {
     return Text("yes");
   }
+
   @override
   Widget buildSuggestions(BuildContext context) {
     // show when someone searchers for something
@@ -61,10 +65,12 @@ class DataSearch extends SearchDelegate<Future<Widget>> {
             ? crud.readDataWhere("searchcats", query.toString())
             : type == "items"
                 ? crud.readDataWhere("searchitems", query.toString())
-                : type == "users" ? 
-                  crud.readDataWhere("searchusers", query.toString()) : type == "restuarants" ? 
-                    crud.readDataWhere("searchrestaurants", query.toString()) : ""
-                 ,
+                : type == "users"
+                    ? crud.readDataWhere("searchusers", query.toString())
+                    : type == "restuarants"
+                        ? crud.readDataWhere(
+                            "searchrestaurants", query.toString())
+                        : "",
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data[0] == "faild") {
@@ -74,13 +80,13 @@ class DataSearch extends SearchDelegate<Future<Widget>> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, i) {
                   if (type == "categories") {
-                    return Text("w");
+                    return CategoriesListSearch(crud: crud,categories: snapshot.data[i]) ; 
                   } else if (type == "items") {
-                          return Text("w");
+                    return Text("w");
                   } else if (type == "users") {
-                     return Text("w");
-                  }else if (type == "restuarants") {
-                    return  Text("w");
+                    return Text("w");
+                  } else if (type == "restuarants") {
+                    return RestaurantsApprove(resturantsapprove: snapshot.data);
                   }
                 });
           }

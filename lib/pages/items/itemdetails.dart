@@ -256,7 +256,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                                   style: TextStyle(color: Colors.white),
                                 )
                               : Text(
-                                  "${addtocart.totalprice} K.D",
+                                  "${addtocart.totalprice.toStringAsFixed(3)} K.D",
                                   style: TextStyle(color: Colors.white),
                                 )),
                       IconButton(

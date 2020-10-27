@@ -60,6 +60,18 @@ class Crud {
     if (type == "orderdetails") {
       url = "http://${server_name}/orders/orders_details.php";
       data = {"orderid": value};
+    } if (type == "searchcats") {
+       url = "http://${server_name}/categories/searchcateories.php" ; 
+       data  = {"search" : value} ; 
+    }if (type == "searchitems") {
+       url = "http://${server_name}/items/searchitems.php" ; 
+       data  = {"search" : value} ; 
+    }if (type == "searchusers") {
+       url = "http://${server_name}/users/searchusers.php" ; 
+       data  = {"search" : value} ; 
+    }if (type == "searchrestaurants") {
+       url = "http://${server_name}/restaurants/searchrestaurants.php" ; 
+       data  = {"search" : value} ; 
     }
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {

@@ -51,7 +51,7 @@ class _RestaurantState extends State<Restaurant> {
                               width: 1,
                             )
                           : Text(
-                              "${addtocart.totalprice} دنيار كويتي",
+                              "${addtocart.totalprice.toStringAsFixed(3)} دنيار كويتي",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 23),
                             ),

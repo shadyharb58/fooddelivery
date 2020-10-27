@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/crud.dart';
+import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/restaurants/restaurantslist.dart';
 import 'dart:io';
 
@@ -136,7 +137,7 @@ class _RestaurantsState extends State<Restaurants> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    // showSearch(context: context, delegate: SearchGlobal()) ;
+                    showSearch(context: context, delegate: DataSearch( type:  "restuarants" , mdw: mdw ));
                   })
             ],
           ),
@@ -152,7 +153,7 @@ class RestaurantsApprove extends StatelessWidget {
   final resturantsapprove;
 
   RestaurantsApprove({this.resturantsapprove});
-  Crud crud = new Crud();
+ 
 
   @override
   Widget build(BuildContext context) {

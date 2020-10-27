@@ -83,13 +83,13 @@ class _ItemsCatState extends State<ItemsCat> {
                         Image.asset("images/notfound.jpg")
                       ],
                     );
-                  } else {
+                  }  
                     return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, i) {
                           return buildListItems(snapshot.data[i]);
                         });
-                  }
+                  
                 }
                 return Center(child: CircularProgressIndicator());
               },
@@ -132,7 +132,7 @@ class _ItemsCatState extends State<ItemsCat> {
                 flex: 3,
                 child: ListTile(
                   trailing: Container(
-                    width: 80,
+                    width: 90,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[

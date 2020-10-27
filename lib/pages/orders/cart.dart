@@ -260,7 +260,7 @@ class _CartState extends State<Cart> {
                       style: TextStyle(fontSize: 20),
                     ),
                     Expanded(child: Container()),
-                    Text("${addtocart.totalprice} د.ك",
+                    Text("${addtocart.totalprice.toStringAsFixed(3)} د.ك",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).primaryColor))
@@ -287,7 +287,7 @@ class _CartState extends State<Cart> {
                   children: [
                     Text(" التكلفة الكلية ", style: TextStyle(fontSize: 20)),
                     Expanded(child: Container()),
-                    Text("${addtocart.sumtotalprice}  د.ك ",
+                    Text("${addtocart.sumtotalprice.toStringAsFixed(3)}  د.ك ",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).primaryColor))
