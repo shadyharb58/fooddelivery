@@ -69,6 +69,8 @@ flutter:
     - images/notfound.png
     - images/notfound.jpg
     - images/search.png
+    - images/notfounditem.jpg
+    
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
