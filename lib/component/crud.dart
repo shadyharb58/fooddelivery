@@ -63,13 +63,7 @@ class Crud {
     } if (type == "searchcats") {
        url = "http://${server_name}/categories/searchcateories.php" ; 
        data  = {"search" : value} ; 
-    }if (type == "searchitems") {
-       url = "http://${server_name}/items/searchitems.php" ; 
-       data  = {"search" : value} ; 
-    }if (type == "searchusers") {
-       url = "http://${server_name}/users/searchusers.php" ; 
-       data  = {"search" : value} ; 
-    }if (type == "searchrestaurants") {
+    } if (type == "searchrestaurants") {
        url = "http://${server_name}/restaurants/searchrestaurants.php" ; 
        data  = {"search" : value} ; 
     }
@@ -97,10 +91,13 @@ class Crud {
     }
     if (type == "transfermoney") {
       url = "http://${server_name}/money/transfermoneyusers.php";
+    }if (type == "searchitems") {
+       url = "http://${server_name}/items/searchitems.php" ; 
     }
+    print(data) ; 
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
       var responsebody = jsonDecode(response.body);
       return responsebody;
     } else {

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/categories/categorieslistsearch.dart';
+import 'package:fooddelivery/pages/items/itemslist.dart';
 import 'package:fooddelivery/pages/restaurants/restaurants.dart';
-import 'package:fooddelivery/pages/restaurants/restaurantslist.dart';
 
 class DataSearch extends SearchDelegate<Future<Widget>> {
   List<dynamic> list;
   final type;
   final mdw;
-
-  DataSearch({this.type, this.mdw});
+  // for items to all categories
+  final cat;
+  // for items to all categories
+  final resid;
+  DataSearch({this.type, this.mdw, this.cat, this.resid});
 
   Crud crud = new Crud();
   @override
@@ -63,14 +66,25 @@ class DataSearch extends SearchDelegate<Future<Widget>> {
       return FutureBuilder(
         future: type == "categories"
             ? crud.readDataWhere("searchcats", query.toString())
-            : type == "items"
-                ? crud.readDataWhere("searchitems", query.toString())
-                : type == "users"
-                    ? crud.readDataWhere("searchusers", query.toString())
-                    : type == "restuarants"
-                        ? crud.readDataWhere(
-                            "searchrestaurants", query.toString())
-                        : "",
+            : type == "itemscat"
+                ? crud.writeData("searchitems",
+                    {"search": query.toString(), "catid": cat.toString()})
+                : type == "itemsres"
+                    ? crud.writeData("searchitems",
+                        {"search": query.toString(), "resid": resid.toString()})
+                    : type == "itemscatres"
+                        ? crud.writeData("searchitems", {
+                            "search": query.toString(),
+                            "catid": cat.toString(),
+                            "resid": resid
+                          })
+                        : type == "users"
+                            ? crud.readDataWhere(
+                                "searchusers", query.toString())
+                            : type == "restuarants"
+                                ? crud.readDataWhere(
+                                    "searchrestaurants", query.toString())
+                                : "",
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data[0] == "faild") {
@@ -80,11 +94,23 @@ class DataSearch extends SearchDelegate<Future<Widget>> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, i) {
                   if (type == "categories") {
-                    return CategoriesListSearch(crud: crud,categories: snapshot.data[i]) ; 
-                  } else if (type == "items") {
-                    return Text("w");
-                  } else if (type == "users") {
-                    return Text("w");
+                    return CategoriesListSearch(
+                        crud: crud, categories: snapshot.data[i]);
+                  } else if (type == "itemscat") {
+                    return ItemsList(
+                      crud: crud,
+                      items: snapshot.data[i],
+                    );
+                  } else if (type == "itemsres") {
+                    return ItemsList(
+                      crud: crud,
+                      items: snapshot.data[i],
+                    );
+                  } else if (type == "itemscatres") {
+                    return ItemsList(
+                      crud: crud,
+                      items: snapshot.data[i],
+                    );
                   } else if (type == "restuarants") {
                     return RestaurantsApprove(resturantsapprove: snapshot.data);
                   }

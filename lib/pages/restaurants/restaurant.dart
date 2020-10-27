@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemscatres.dart';
 import 'package:provider/provider.dart';
 import 'package:fooddelivery/component/addtocart.dart';
@@ -63,10 +64,10 @@ class _RestaurantState extends State<Restaurant> {
             Stack(
               children: <Widget>[
                 buildTopRaduis(mdw),
-                buildTopText(mdw),
+                buildTopText(mdw , routes),
                 buildCardrestaurant(routes),
                 Container(
-                    padding: EdgeInsets.only(right: 10, left: 10),
+                    padding: EdgeInsets.only(right: 5, left: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -175,7 +176,7 @@ class _RestaurantState extends State<Restaurant> {
         ));
   }
 
-  Padding buildTopText(mdw) {
+  Padding buildTopText(mdw , routes) {
     return Padding(
       padding: EdgeInsets.only(top: 10, right: 0),
       child: Column(
@@ -194,7 +195,11 @@ class _RestaurantState extends State<Restaurant> {
                     Icons.search,
                     color: Colors.white,
                   ),
-                  onPressed: null)
+                  onPressed: () {
+                     showSearch(
+                        context: context,
+                        delegate: DataSearch(type: "itemsres", mdw: mdw , resid: routes['resid']));
+                  })
             ],
           ),
         ],
@@ -431,7 +436,7 @@ class _RestaurantState extends State<Restaurant> {
                 flex: 3,
                 child: ListTile(
                   trailing: Container(
-                    width: 81,
+                    width: 85,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -440,7 +445,7 @@ class _RestaurantState extends State<Restaurant> {
                           style: TextStyle(fontSize: 13),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: EdgeInsets.only(left: 0),
                         ),
                         Consumer<AddToCart>(
                           builder: (context, addtocart, child) {

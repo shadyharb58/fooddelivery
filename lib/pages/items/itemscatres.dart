@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/crud.dart';
+import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemdetails.dart';
 import 'package:provider/provider.dart';
 import 'package:fooddelivery/component/addtocart.dart';
@@ -29,12 +30,26 @@ class _ItemCatResState extends State<ItemCatRes> {
 
   @override
   Widget build(BuildContext context) {
+    double mdw = MediaQuery.of(context).size.width;
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: AppBar(
-            title: Text('${widget.catname}'),
-          ),
+          appBar: AppBar(title: Text('${widget.catname}'), actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  showSearch(
+                      context: context,
+                      delegate: DataSearch(
+                          type: "itemscatres",
+                          mdw: mdw,
+                          cat: widget.catid,
+                          resid: widget.resid));
+                })
+          ]),
           bottomNavigationBar: Container(
               height: 60,
               color: Colors.red,
