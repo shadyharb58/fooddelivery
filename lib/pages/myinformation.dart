@@ -128,12 +128,7 @@ class _MyInformationState extends State<MyInformation> {
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),
-              IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                  onPressed: null)
+     
             ],
           ),
           Row(
