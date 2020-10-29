@@ -175,7 +175,7 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    // checkSignIn();
+    checkSignIn();
     _changesign = new TapGestureRecognizer()
       ..onTap = () {
         setState(() {
