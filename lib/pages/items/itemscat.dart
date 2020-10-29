@@ -70,7 +70,7 @@ class _ItemsCatState extends State<ItemsCat> {
                               width: 1,
                             )
                           : Text(
-                              "${addtocart.totalprice} دنيار كويتي",
+                              "${addtocart.totalprice.toStringAsFixed(3)} دنيار كويتي",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 23),
                             ),
