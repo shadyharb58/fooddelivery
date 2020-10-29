@@ -42,21 +42,6 @@ class _RestaurantsState extends State<Restaurants> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          floatingActionButton: Container(
-              padding: EdgeInsets.only(left: mdw - 80),
-              child: Container(
-                  width: 60,
-                  height: 60,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('addrestaurants');
-                    },
-                    child: Icon(
-                      Icons.add,
-                      size: 30,
-                    ),
-                    backgroundColor: Colors.red,
-                  ))),
           body: WillPopScope(
               child: ListView(
                 children: <Widget>[

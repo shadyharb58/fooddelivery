@@ -97,6 +97,7 @@ class _CartState extends State<Cart> {
                               prefs.setString(
                                 "balance", usersaftercheckout[0]['user_balance'].toString() 
                               );
+                              Provider.of<AddToCart>(context, listen: false).removeAll();
                               Navigator.of(context).pushReplacementNamed("myorders") ; 
                             } else if (addtocart.basketnoreapt.isEmpty) {
                               showdialogall(

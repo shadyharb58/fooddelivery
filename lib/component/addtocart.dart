@@ -37,7 +37,8 @@ class AddToCart with ChangeNotifier {
 
     // Price for every resturants
 
-    if (resprice[items['res_id']] == null) { // {2 : }
+    if (resprice[items['res_id']] == null) {
+      // {2 : }
       resprice[items['res_id']] = 0;
     }
 
@@ -57,15 +58,15 @@ class AddToCart with ChangeNotifier {
       }
       if (quantity[items['item_id']] > 0) {
         _price -= double.parse(items['item_price'].toString());
-      
+
         quantity[items['item_id']] = quantity[items['item_id']] - 1;
 
         // For Price Delivery Restaurants
         var value =
-            _itemsnoreapt.where((element) => element['res_id'] == resid); 
+            _itemsnoreapt.where((element) => element['res_id'] == resid);
 
         if (value.isEmpty) {
-          listpricedelivery[resid] = 0; 
+          listpricedelivery[resid] = 0;
           _pricedelivery -= double.parse(pricedelivery.toString());
         }
 
@@ -81,9 +82,10 @@ class AddToCart with ChangeNotifier {
   void reset(items, pricedelivery, resid) {
     // Price for every resturants
 
-    resprice[items['res_id']] -= (double.parse(items['item_price'])  * double.parse(quantity[items['item_id']].toString())   );
+    resprice[items['res_id']] -= (double.parse(items['item_price']) *
+        double.parse(quantity[items['item_id']].toString()));
     // prdouble(resprice);
-   // = =====================================
+    // = =====================================
     _itemsnoreapt.removeWhere((item) => item['item_id'] == items['item_id']);
     _price = _price -
         (double.parse(quantity[items['item_id']].toString()) *
@@ -100,6 +102,17 @@ class AddToCart with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  removeAll() {
+   _items.clear();
+   _itemsnoreapt.clear();
+   _price = 0;
+   quantity.clear();
+   active.clear(); 
+   listpricedelivery.clear(); //
+   _pricedelivery = 0;
+    resprice.clear(); 
   }
 
   int get count {

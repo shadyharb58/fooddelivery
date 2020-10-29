@@ -110,7 +110,7 @@ class ListOrders extends StatelessWidget {
                       children: [
                     TextSpan(text: "السعر الكلي :", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
                     TextSpan(
-                        text: " ${orders['orders_total']} نقطة",
+                        text: " ${orders['orders_total']} د.ك",
                         style: TextStyle(color: Colors.blue , fontWeight: FontWeight.w600)),
                   ])),
             ],
