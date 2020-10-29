@@ -5,50 +5,13 @@ import 'package:fooddelivery/component/crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:fooddelivery/component/alert.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
-}
-
-showloading(context) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Row(
-            children: <Widget>[
-              Text("Loding ... "),
-              CircularProgressIndicator()
-            ],
-          ),
-        );
-      });
-}
-
-showdialogall(context, String mytitle, String mycontent, [type]) {
-  return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(mytitle),
-          content: Text(mycontent),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("done"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                if (type == "uploadimage") {
-                } else {
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
-        );
-      });
 }
 
 class _LoginState extends State<Login> {
@@ -111,31 +74,36 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formstatesignin = new GlobalKey<FormState>();
   GlobalKey<FormState> formstatesignup = new GlobalKey<FormState>();
 
-  savePref(String username, String email, String id , String balance , String phone  , String password) async {
+  savePref(String username, String email, String id, String balance,
+      String phone, String password) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("id", id);
     preferences.setString("username", username);
     preferences.setString("email", email);
-    preferences.setString("balance", balance) ; 
-    preferences.setString("phone", phone) ; 
-    preferences.setString("password", password) ; 
-
+    preferences.setString("balance", balance);
+    preferences.setString("phone", phone);
+    preferences.setString("password", password);
   }
 
   signin() async {
     var formdata = formstatesignin.currentState;
     if (formdata.validate()) {
       formdata.save();
-
-      showloading(context);
+      showLoading(context);
       var data = {"email": email.text, "password": password.text};
       var responsebody = await crud.writeData("login", data);
       if (responsebody['status'] == "success") {
-        savePref(responsebody['username'], responsebody['email'],
-            responsebody['id'] , responsebody['balance'] , responsebody['phone'] , responsebody['password']);
+        savePref(
+            responsebody['username'],
+            responsebody['email'],
+            responsebody['id'],
+            responsebody['balance'],
+            responsebody['phone'],
+            responsebody['password']);
         Navigator.of(context).pushNamed("home");
       } else {
         print("login faild");
+        Navigator.of(context).pop(); 
         showdialogall(context, "خطأ", "البريد الالكتروني او كلمة المرور خاطئة");
       }
     } else {
@@ -145,17 +113,18 @@ class _LoginState extends State<Login> {
 
   signup() async {
     if (file == null)
-      return showdialogall(context, "خطأ", "يجب اضافة صورة ", "uploadimage");
+      return showdialogall(context, "خطأ", "يجب اضافة صورة ");
     var formdata = formstatesignup.currentState;
     if (formdata.validate()) {
       formdata.save();
-      showloading(context);
+      showLoading(context);
       var responsebody = await crud.addUsers(
           email.text, password.text, username.text, phone.text, file);
       if (responsebody['status'] == "success") {
         print("yes success");
         Navigator.of(context).pushNamed("login");
       } else {
+        Navigator.of(context).pop() ; 
         showdialogall(
             context, "خطأ", " البريد الالكتروني او رقم الهاتف موجود سابقا ");
       }
@@ -163,12 +132,13 @@ class _LoginState extends State<Login> {
       print("not valid");
     }
   }
+
   TapGestureRecognizer _changesign;
   bool showsignin = true;
 
   checkSignIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("id") != null){
+    if (prefs.getString("id") != null) {
       Navigator.of(context).pushReplacementNamed("home");
     }
   }
@@ -227,7 +197,8 @@ class _LoginState extends State<Login> {
                                   showsignin
                                       ? InkWell(
                                           onTap: () {
-                                            return Navigator.of(context).pushNamed("resetpassword") ; 
+                                            return Navigator.of(context)
+                                                .pushNamed("resetpassword");
                                           },
                                           child: Text(
                                             "  ? هل نسيت كلمة المرور",
@@ -373,7 +344,7 @@ class _LoginState extends State<Login> {
                                   //             ),
                                   //           ],
                                   //         ))
-                                      // : Text("")
+                                  // : Text("")
                                 ],
                               )),
                         ],
@@ -623,15 +594,15 @@ class _LoginState extends State<Login> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Container(
+          return  Directionality(textDirection: TextDirection.rtl, child: Container(
             padding: EdgeInsets.all(10),
-            height: 170,
+            height: 200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   child: Text(
-                    "Chooser Photo",
+                    "اختيار صورة",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
                   ),
                 ),
@@ -645,7 +616,7 @@ class _LoginState extends State<Login> {
                     Icons.camera_alt,
                     size: 40,
                   ),
-                  title: Text("   Take Photo", style: TextStyle(fontSize: 20)),
+                  title: Text("صورة من الكاميرا", style: TextStyle(fontSize: 20)),
                 ),
                 ListTile(
                   onTap: () {
@@ -656,12 +627,12 @@ class _LoginState extends State<Login> {
                     Icons.image,
                     size: 40,
                   ),
-                  title: Text("Upload From Gallery",
+                  title: Text(" صورة من الاستديو",
                       style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),
-          );
+          )) ; 
         });
   }
 }
