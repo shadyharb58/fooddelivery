@@ -31,6 +31,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           return VerfiyCode(email: _email);
         }));
       } else {
+        Navigator.of(context).pop();
         showdialogall(context, "تنبيه", "البريد الالكتروني غير موجود");
       }
     } else {
