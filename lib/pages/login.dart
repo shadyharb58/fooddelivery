@@ -168,14 +168,14 @@ class _LoginState extends State<Login> {
 
   checkSignIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("id") != null) {
+    if (prefs.getString("id") != null){
       Navigator.of(context).pushReplacementNamed("home");
     }
   }
 
   @override
   void initState() {
-    checkSignIn();
+    // checkSignIn();
     _changesign = new TapGestureRecognizer()
       ..onTap = () {
         setState(() {
@@ -226,7 +226,9 @@ class _LoginState extends State<Login> {
                                 children: <Widget>[
                                   showsignin
                                       ? InkWell(
-                                          onTap: () {},
+                                          onTap: () {
+                                            return Navigator.of(context).pushNamed("resetpassword") ; 
+                                          },
                                           child: Text(
                                             "  ? هل نسيت كلمة المرور",
                                             style: TextStyle(
@@ -310,68 +312,68 @@ class _LoginState extends State<Login> {
                                   SizedBox(
                                     height: 30,
                                   ),
-                                  showsignin
-                                      ? Directionality(
-                                          textDirection: TextDirection.ltr,
-                                          child: Row(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
-                                              ),
-                                              Expanded(
-                                                child: RaisedButton(
-                                                  padding: EdgeInsets.all(10),
-                                                  color: Colors.red[400],
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      // Image.asset("images/iconsocial/g.png" , width: 25 , height: 25,) ,
-                                                      Text(
-                                                        " Sign In Google ",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 16),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  onPressed: () {},
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
-                                              ),
-                                              Expanded(
-                                                child: RaisedButton(
-                                                  padding: EdgeInsets.all(10),
-                                                  color: Colors.blue[800],
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      // Image.asset("images/iconsocial/f.png" , width: 25 , height: 25,) ,
-                                                      Text(
-                                                        " Sign In facebook ",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 16),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  onPressed: () {},
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
-                                              ),
-                                            ],
-                                          ))
-                                      : Text("")
+                                  // showsignin
+                                  //     ? Directionality(
+                                  //         textDirection: TextDirection.ltr,
+                                  //         child: Row(
+                                  //           children: <Widget>[
+                                  //             Padding(
+                                  //               padding:
+                                  //                   EdgeInsets.only(right: 10),
+                                  //             ),
+                                  //             Expanded(
+                                  //               child: RaisedButton(
+                                  //                 padding: EdgeInsets.all(10),
+                                  //                 color: Colors.red[400],
+                                  //                 child: Row(
+                                  //                   mainAxisAlignment:
+                                  //                       MainAxisAlignment
+                                  //                           .center,
+                                  //                   children: <Widget>[
+                                  //                     // Image.asset("images/iconsocial/g.png" , width: 25 , height: 25,) ,
+                                  //                     Text(
+                                  //                       " Sign In Google ",
+                                  //                       style: TextStyle(
+                                  //                           color: Colors.white,
+                                  //                           fontSize: 16),
+                                  //                     )
+                                  //                   ],
+                                  //                 ),
+                                  //                 onPressed: () {},
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding:
+                                  //                   EdgeInsets.only(right: 10),
+                                  //             ),
+                                  //             Expanded(
+                                  //               child: RaisedButton(
+                                  //                 padding: EdgeInsets.all(10),
+                                  //                 color: Colors.blue[800],
+                                  //                 child: Row(
+                                  //                   mainAxisAlignment:
+                                  //                       MainAxisAlignment
+                                  //                           .center,
+                                  //                   children: <Widget>[
+                                  //                     // Image.asset("images/iconsocial/f.png" , width: 25 , height: 25,) ,
+                                  //                     Text(
+                                  //                       " Sign In facebook ",
+                                  //                       style: TextStyle(
+                                  //                           color: Colors.white,
+                                  //                           fontSize: 16),
+                                  //                     )
+                                  //                   ],
+                                  //                 ),
+                                  //                 onPressed: () {},
+                                  //               ),
+                                  //             ),
+                                  //             Padding(
+                                  //               padding:
+                                  //                   EdgeInsets.only(right: 10),
+                                  //             ),
+                                  //           ],
+                                  //         ))
+                                      // : Text("")
                                 ],
                               )),
                         ],

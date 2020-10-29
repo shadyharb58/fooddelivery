@@ -60,12 +60,14 @@ class Crud {
     if (type == "orderdetails") {
       url = "http://${server_name}/orders/orders_details.php";
       data = {"orderid": value};
-    } if (type == "searchcats") {
-       url = "http://${server_name}/categories/searchcateories.php" ; 
-       data  = {"search" : value} ; 
-    } if (type == "searchrestaurants") {
-       url = "http://${server_name}/restaurants/searchrestaurants.php" ; 
-       data  = {"search" : value} ; 
+    }
+    if (type == "searchcats") {
+      url = "http://${server_name}/categories/searchcateories.php";
+      data = {"search": value};
+    }
+    if (type == "searchrestaurants") {
+      url = "http://${server_name}/restaurants/searchrestaurants.php";
+      data = {"search": value};
     }
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
@@ -91,13 +93,23 @@ class Crud {
     }
     if (type == "transfermoney") {
       url = "http://${server_name}/money/transfermoneyusers.php";
-    }if (type == "searchitems") {
-       url = "http://${server_name}/items/searchitems.php" ; 
     }
-    print(data) ; 
+    if (type == "searchitems") {
+      url = "http://${server_name}/items/searchitems.php";
+    }
+    if (type == "resetpassword") {
+      url = "http://${server_name}/resetpassword.php";
+    }
+    if (type == "verfiycode") {
+      url = "http://${server_name}/verfiycode.php";
+    }
+    if (type == "newpassword") {
+      url = "http://${server_name}/newpassword.php";
+    }
+
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
-      // print(response.body);
+      print(response.body);
       var responsebody = jsonDecode(response.body);
       return responsebody;
     } else {
