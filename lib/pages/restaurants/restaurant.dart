@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemscatres.dart';
 import 'package:provider/provider.dart';
@@ -59,103 +60,109 @@ class _RestaurantState extends State<Restaurant> {
                     ],
                   );
                 }))),
-        body: WillPopScope(child: ListView(
-          children: <Widget>[
-            Stack(
+        body: WillPopScope(
+            child: ListView(
               children: <Widget>[
-                buildTopRaduis(mdw),
-                buildTopText(mdw , routes),
-                buildCardrestaurant(routes),
-                Container(
-                    padding: EdgeInsets.only(right: 5, left: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 230),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            "الاقسام",
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                        ),
-                        buildListHorizontal(routes),
-                        Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              "  الاكلات الاكثر مبيعا  ",
-                              style: Theme.of(context).textTheme.headline2,
-                            )),
-                        SizedBox(height: 20),
-                        Container(
-                          height: 270,
-                          child: FutureBuilder(
-                            future:
-                                crud.readDataWhere("items", routes['resid']),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.data[0] == "faild") {
-                                  return Image.asset("images/notfound.jpg");
-                                } else {
-                                  return ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, i) {
-                                        return buildImageItems(
-                                            mdw, snapshot.data[i]);
-                                      });
-                                }
-                              }
-                              return Center(child: CircularProgressIndicator());
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
+                Stack(
+                  children: <Widget>[
+                    buildTopRaduis(mdw),
+                    buildTopText(mdw, routes),
+                    buildCardrestaurant(routes),
+                    Container(
+                        padding: EdgeInsets.only(right: 5, left: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              "الوجبات",
-                              style: Theme.of(context).textTheme.headline2,
+                            Container(
+                              margin: EdgeInsets.only(top: 230),
+                              padding: EdgeInsets.all(10),
+                              child: Text(
+                                "الاقسام",
+                                style: Theme.of(context).textTheme.headline2,
+                              ),
                             ),
-                            Expanded(
-                              child: Container(),
+                            buildListHorizontal(routes),
+                            Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "  الاكلات الاكثر مبيعا  ",
+                                  style: Theme.of(context).textTheme.headline2,
+                                )),
+                            SizedBox(height: 20),
+                            Container(
+                              height: 270,
+                              child: FutureBuilder(
+                                future: crud.readDataWhere(
+                                    "items", routes['resid']),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    if (snapshot.data[0] == "faild") {
+                                      return Image.asset("images/notfound.jpg");
+                                    } else {
+                                      return ListView.builder(
+                                          itemCount: snapshot.data.length,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, i) {
+                                            return buildImageItems(
+                                                mdw, snapshot.data[i]);
+                                          });
+                                    }
+                                  }
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                },
+                              ),
                             ),
-                            Text(
-                              "روئية الجميع",
-                              style: Theme.of(context).textTheme.headline2,
+                            SizedBox(height: 20),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  "الوجبات",
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                Text(
+                                  "روئية الجميع",
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 20),
+                            FutureBuilder(
+                              future:
+                                  crud.readDataWhere("items", routes['resid']),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.data[0] == "faild") {
+                                    return Image.asset("images/notfound.jpg");
+                                  } else {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (context, i) {
+                                          return buildListItems(
+                                              snapshot.data[i]);
+                                        });
+                                  }
+                                }
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              },
+                            )
                           ],
-                        ),
-                        SizedBox(height: 20),
-                        FutureBuilder(
-                          future: crud.readDataWhere("items", routes['resid']),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data[0] == "faild") {
-                                return Image.asset("images/notfound.jpg");
-                              } else {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data.length,
-                                    itemBuilder: (context, i) {
-                                      return buildListItems(snapshot.data[i]);
-                                    });
-                              }
-                            }
-                            return Center(child: CircularProgressIndicator());
-                          },
-                        )
-                      ],
-                    ))
+                        ))
+                  ],
+                )
               ],
-            )
-          ],
-        ), onWillPop: (){
-          Navigator.of(context).pushNamed("home");
-        }),
+            ),
+            onWillPop: () {
+              Navigator.of(context).pushNamed("home");
+            }),
       ),
     );
   }
@@ -176,7 +183,7 @@ class _RestaurantState extends State<Restaurant> {
         ));
   }
 
-  Padding buildTopText(mdw , routes) {
+  Padding buildTopText(mdw, routes) {
     return Padding(
       padding: EdgeInsets.only(top: 10, right: 0),
       child: Column(
@@ -184,9 +191,14 @@ class _RestaurantState extends State<Restaurant> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              IconButton(icon: Icon(Icons.arrow_back , color: Colors.white,), onPressed: (){
-                Navigator.pushNamed(context, "home") ; 
-              }),
+              IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, "home");
+                  }),
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),
@@ -196,9 +208,12 @@ class _RestaurantState extends State<Restaurant> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                     showSearch(
+                    showSearch(
                         context: context,
-                        delegate: DataSearch(type: "itemsres", mdw: mdw , resid: routes['resid']));
+                        delegate: DataSearch(
+                            type: "itemsres",
+                            mdw: mdw,
+                            resid: routes['resid']));
                   })
             ],
           ),
@@ -462,14 +477,12 @@ class _RestaurantState extends State<Restaurant> {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(
-                                            items,
-                                            items['res_price_delivery'],
-                                            items['res_id'])
-                                        : addtocart.reset(
-                                            items,
-                                            items['res_price_delivery'],
-                                            items['res_id']);
+                                        ? addtocart.add(items)
+                                        : addtocart.reset(items);
+
+                                        if (addtocart.showalert == true ) {
+                                          showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
+                                        }
                                   },
                                   child: Icon(
                                     Icons.add,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemdetails.dart';
@@ -179,12 +180,16 @@ class _ItemCatResState extends State<ItemCatRes> {
                                     addtocart.active[items['item_id']] != 1
                                         ? addtocart.add(
                                             items,
-                                            items['res_price_delivery'],
-                                            items['res_id'])
+                                          )
                                         : addtocart.reset(
                                             items,
-                                            items['res_price_delivery'],
-                                            items['res_id']);
+                                           );
+
+                                             if (addtocart.showalert == true ) {
+                                         
+                                                showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
+                                            
+                                            }
                                   },
                                   child: Icon(
                                     Icons.add,

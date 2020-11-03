@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/addtocart.dart';
+import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/pages/items/itemdetails.dart';
 import 'package:provider/provider.dart';
 class ItemsList extends StatelessWidget {
@@ -68,8 +69,11 @@ class ItemsList extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     addtocart.active[items['item_id']] != 1
-                                        ? addtocart.add(items , items['res_price_delivery']  , items['res_id'])
-                                        : addtocart.reset(items, items['res_price_delivery'] , items['res_id']);
+                                        ? addtocart.add(items)
+                                        : addtocart.reset(items);
+                                          if (addtocart.showalert == true ) {
+                                          showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
+                                        }
                                   },
                                   child: Icon(
                                     Icons.add,

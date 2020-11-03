@@ -263,5 +263,6 @@ class Common with ChangeNotifier {
   bool showpass = false;
   changeShowPass() {
     showpass = !showpass;
+     notifyListeners() ; 
   }
 }

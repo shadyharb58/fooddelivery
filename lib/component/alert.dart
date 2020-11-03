@@ -30,3 +30,24 @@ showLoading(context) {
         );
       });
 }
+
+
+showdialogallArabic(context, String mytitle, String mycontent) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Directionality(textDirection: TextDirection.rtl, child: AlertDialog(
+          title: Text(mytitle),
+          content: Text(mycontent),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("تم"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ));
+      });
+}
+ 

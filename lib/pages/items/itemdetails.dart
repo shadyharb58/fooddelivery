@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/addtocart.dart';
+import 'package:fooddelivery/component/alert.dart';
 import 'package:fooddelivery/component/crud.dart';
 import 'package:provider/provider.dart';
 
@@ -132,7 +133,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                               builder: (context, addtocart, child) {
                             return InkWell(
                               onTap: () {
-                                addtocart.remove(widget.items, widget.deliveryprice , widget.items['res_id']);
+                                addtocart.remove(widget.items);
                               },
                               child: Container(
                                   padding: EdgeInsets.all(5),
@@ -169,7 +170,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(50)))),
                                 onTap: () {
-                                  addtocart.add(widget.items , widget.deliveryprice , widget.items['res_id']);
+                                  addtocart.add(widget.items);
+                                    if (addtocart.showalert == true ) {
+                                          showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
+                                        }
                                 },
                               );
                             },
@@ -184,7 +188,10 @@ class _ItemDetailsState extends State<ItemDetails> {
                           minWidth: 200,
                           color: Colors.red,
                           onPressed: () {
-                            addtocart.add(widget.items  , widget.deliveryprice, widget.items['res_id']);
+                            addtocart.add(widget.items);
+                              if (addtocart.showalert == true ) {
+                                          showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
+                                        }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

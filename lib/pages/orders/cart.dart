@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/alert.dart';
-
 import 'package:provider/provider.dart';
-
 // my import
 
 import 'package:fooddelivery/component/crud.dart';
@@ -35,7 +33,7 @@ class _CartState extends State<Cart> {
     userid = prefs.getString("id");
     username = prefs.getString('username');
     users.addAll(await crud.readDataWhere("users", userid));
- 
+
     print(users);
     setState(() {
       loading = false;
@@ -76,29 +74,35 @@ class _CartState extends State<Cart> {
                           color: Theme.of(context).primaryColor,
                           onPressed: () async {
                             var data = {
+                              "resid" : addtocart.listres[0]  , 
                               "listfood": addtocart.basketnoreapt,
                               "quantity": addtocart.quantity,
                               'userid': userid,
                               'totalprice': addtocart
                                   .sumtotalprice, // total price with price delivery
-                              'resprice': addtocart.resprice,
                               'lat': lat,
                               'long': long,
                               'timenow': DateTime.now().toString()
                             };
-                            if (double.parse(addtocart.sumtotalprice.toString()) <=
+                            if (double.parse(
+                                        addtocart.sumtotalprice.toString()) <=
                                     double.parse(
                                         users[0]['user_balance'].toString()) &&
                                 addtocart.basketnoreapt.isNotEmpty) {
                               await crud.addOrders("checkout", data);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              List usersaftercheckout = await crud.readDataWhere("users", prefs.getString("id"));
+                              List usersaftercheckout =
+                                  await crud.readDataWhere(
+                                      "users", prefs.getString("id"));
                               prefs.setString(
-                                "balance", usersaftercheckout[0]['user_balance'].toString() 
-                              );
-                              Provider.of<AddToCart>(context, listen: false).removeAll();
-                              Navigator.of(context).pushReplacementNamed("myorders") ; 
+                                  "balance",
+                                  usersaftercheckout[0]['user_balance']
+                                      .toString());
+                              Provider.of<AddToCart>(context, listen: false)
+                                  .removeAll();
+                              Navigator.of(context)
+                                  .pushReplacementNamed("myorders");
                             } else if (addtocart.basketnoreapt.isEmpty) {
                               showdialogall(
                                   context, "تنبيه", " لا يوجد اي منتج للشراء ");
@@ -147,16 +151,14 @@ class _CartState extends State<Cart> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: addtocart.basketnoreapt.length,
                           itemBuilder: (context, i) {
-                            return Dismissible(key: UniqueKey(), 
-                            onDismissed: (direction){
-                                 
-                                 addtocart.reset(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']);
-                                  
-                  
-                                    addtocart.basketnoreapt.removeAt(i);
-                                
-                            },
-                            child: Card(
+                            // return Dismissible(
+                            //     key: UniqueKey(),
+                            //     onDismissed: (direction) {
+                            //       addtocart.reset(addtocart.basketnoreapt[i]);
+                            //       addtocart.basketnoreapt.removeAt(i);
+                            //     },
+                            //     child:
+                            return Card(
                                 child: Row(
                               children: [
                                 Expanded(
@@ -174,23 +176,29 @@ class _CartState extends State<Cart> {
                                         "${addtocart.basketnoreapt[i]['item_name']}"),
                                     trailing: Container(
                                       width: 110,
-                                      child: Row(children: [
-                                        IconButton(icon: Icon(Icons.remove), onPressed: (){
-                                            addtocart.remove(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']) ;
-                                        
-                                        }) , 
-                                        Text(
-                                          "${addtocart.quantity[addtocart.basketnoreapt[i]['item_id']]}")  ,
-                                        IconButton(icon: Icon(Icons.add), onPressed: (){
-                                            addtocart.add(addtocart.basketnoreapt[i], addtocart.basketnoreapt[i]['res_price_delivery'], addtocart.basketnoreapt[i]['res_id']) ;
-                                        }) , 
-
-                                      ],),
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              icon: Icon(Icons.remove),
+                                              onPressed: () {
+                                                addtocart.remove(
+                                                    addtocart.basketnoreapt[i]);
+                                              }),
+                                          Text(
+                                              "${addtocart.quantity[addtocart.basketnoreapt[i]['item_id']]}"),
+                                          IconButton(
+                                              icon: Icon(Icons.add),
+                                              onPressed: () {
+                                                addtocart.add(
+                                                    addtocart.basketnoreapt[i]);
+                                              }),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 )
                               ],
-                            )));
+                            ));
                           }),
                     );
                   })
@@ -225,9 +233,14 @@ class _CartState extends State<Cart> {
         children: <Widget>[
           Row(
             children: <Widget>[
-                   IconButton(icon: Icon(Icons.arrow_back , color: Colors.white,), onPressed: (){
-                Navigator.pop(context) ; 
-              }),
+              IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
               Text("TalabPay",
                   style: TextStyle(color: Colors.white, fontSize: 20)),
               Expanded(child: Container()),

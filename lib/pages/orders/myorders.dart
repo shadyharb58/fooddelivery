@@ -13,17 +13,17 @@ class MyOrders extends StatefulWidget {
 
 class _MyOrdersState extends State<MyOrders> {
   Crud crud = new Crud();
-  var userid ; 
+  var userid;
   setLocal() async {
     await Jiffy.locale("ar");
   }
 
-  getuserid() async{
-    SharedPreferences prefs  = await SharedPreferences.getInstance() ; 
+  getuserid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-    userid = prefs.getString("id") ;
-    print(userid) ; 
-    });  
+      userid = prefs.getString("id");
+      print(userid);
+    });
   }
 
   @override
@@ -31,7 +31,7 @@ class _MyOrdersState extends State<MyOrders> {
     // TODO: implement initState
     super.initState();
     setLocal();
-    getuserid()  ; 
+    getuserid();
   }
 
   @override
@@ -39,29 +39,38 @@ class _MyOrdersState extends State<MyOrders> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: AppBar(
-            title: Text('طلباتي'),
-          ),
-          body: WillPopScope(child: userid == null ? Center(child: CircularProgressIndicator()) : FutureBuilder(
-            future: crud.readDataWhere("orders", userid),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                  if (snapshot.data[0] == "faild"){
-                    return Center(child: Text("لا يوجد اي طلب " , style: TextStyle(color: Colors.red , fontSize: 30 ),)) ; 
-                  }
-                   return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListOrders(orders: snapshot.data[index]);
-                  },
-                );
-              }
-              return Center(child: CircularProgressIndicator());
-            },
-          ), onWillPop: (){
-            Navigator.pushNamed(context, "home")   ; 
-          })
-        ));
+            appBar: AppBar(
+              title: Text('طلباتي'),
+            ),
+            body: WillPopScope(
+                child: userid == null
+                    ? Center(child: CircularProgressIndicator())
+                    : FutureBuilder(
+                        future: crud.readDataWhere("orders", userid),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data[0] == "faild") {
+                              return Center(
+                                  child: Text(
+                                "لا يوجد اي طلب ",
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 30),
+                              ));
+                            }
+                            return ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListOrders(orders: snapshot.data[index]);
+                              },
+                            );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
+                onWillPop: () {
+                  Navigator.pushNamed(context, "home");
+                })));
   }
 }
 
@@ -86,32 +95,51 @@ class ListOrders extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              double.parse(orders['orders_status']) == 0
-                  ? RichText(
-                      text: TextSpan(
-                          style: TextStyle(
-                              fontFamily: 'Cairo', color: Colors.black),
-                          children: [
-                          TextSpan(text: "حالة الطلبية : ", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
-                          TextSpan(text: " قيد التوصيل", style: TextStyle(color: Colors.red , fontWeight: FontWeight.w600)),
-                        ]))
-                  : RichText(
-                      text: TextSpan(
-                          style: TextStyle(
-                              fontFamily: 'Cairo', color: Colors.black),
-                          children: [
-                          TextSpan(text: "حالة الطلبية : ", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
-                          TextSpan(text: " تم التوصيل", style: TextStyle(color: Colors.green , fontWeight: FontWeight.w600)),
-                        ])),
               RichText(
                   text: TextSpan(
                       style:
                           TextStyle(fontFamily: 'Cairo', color: Colors.black),
                       children: [
-                    TextSpan(text: "السعر الكلي :", style: TextStyle(color: Colors.grey , fontWeight: FontWeight.w600)),
+                    TextSpan(
+                        text: "حالة الطلبية : ",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.w600)),
+                    TextSpan(
+                        text: int.parse(orders['orders_status']) == 0
+                            ? "بانتظار الموافقة"
+                            : int.parse(orders['orders_status']) == 1
+                                ? "قيد التوصيل"
+                                : "تم التوصيل",
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.w600)),
+                  ])),
+              RichText(
+                  text: TextSpan(
+                      style:
+                          TextStyle(fontFamily: 'Cairo', color: Colors.black),
+                      children: [
+                    TextSpan(
+                        text: "المطعم : ",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.w600)),
+                    TextSpan(
+                        text: " ${orders['res_name']}  ",
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.w600)),
+                  ])),
+              RichText(
+                  text: TextSpan(
+                      style:
+                          TextStyle(fontFamily: 'Cairo', color: Colors.black),
+                      children: [
+                    TextSpan(
+                        text: "السعر الكلي :",
+                        style: TextStyle(
+                            color: Colors.grey, fontWeight: FontWeight.w600)),
                     TextSpan(
                         text: " ${orders['orders_total']} د.ك",
-                        style: TextStyle(color: Colors.blue , fontWeight: FontWeight.w600)),
+                        style: TextStyle(
+                            color: Colors.blue, fontWeight: FontWeight.w600)),
                   ])),
             ],
           ),
