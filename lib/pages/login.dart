@@ -282,68 +282,7 @@ class _LoginState extends State<Login> {
                                   SizedBox(
                                     height: 30,
                                   ),
-                                  // showsignin
-                                  //     ? Directionality(
-                                  //         textDirection: TextDirection.ltr,
-                                  //         child: Row(
-                                  //           children: <Widget>[
-                                  //             Padding(
-                                  //               padding:
-                                  //                   EdgeInsets.only(right: 10),
-                                  //             ),
-                                  //             Expanded(
-                                  //               child: RaisedButton(
-                                  //                 padding: EdgeInsets.all(10),
-                                  //                 color: Colors.red[400],
-                                  //                 child: Row(
-                                  //                   mainAxisAlignment:
-                                  //                       MainAxisAlignment
-                                  //                           .center,
-                                  //                   children: <Widget>[
-                                  //                     // Image.asset("images/iconsocial/g.png" , width: 25 , height: 25,) ,
-                                  //                     Text(
-                                  //                       " Sign In Google ",
-                                  //                       style: TextStyle(
-                                  //                           color: Colors.white,
-                                  //                           fontSize: 16),
-                                  //                     )
-                                  //                   ],
-                                  //                 ),
-                                  //                 onPressed: () {},
-                                  //               ),
-                                  //             ),
-                                  //             Padding(
-                                  //               padding:
-                                  //                   EdgeInsets.only(right: 10),
-                                  //             ),
-                                  //             Expanded(
-                                  //               child: RaisedButton(
-                                  //                 padding: EdgeInsets.all(10),
-                                  //                 color: Colors.blue[800],
-                                  //                 child: Row(
-                                  //                   mainAxisAlignment:
-                                  //                       MainAxisAlignment
-                                  //                           .center,
-                                  //                   children: <Widget>[
-                                  //                     // Image.asset("images/iconsocial/f.png" , width: 25 , height: 25,) ,
-                                  //                     Text(
-                                  //                       " Sign In facebook ",
-                                  //                       style: TextStyle(
-                                  //                           color: Colors.white,
-                                  //                           fontSize: 16),
-                                  //                     )
-                                  //                   ],
-                                  //                 ),
-                                  //                 onPressed: () {},
-                                  //               ),
-                                  //             ),
-                                  //             Padding(
-                                  //               padding:
-                                  //                   EdgeInsets.only(right: 10),
-                                  //             ),
-                                  //           ],
-                                  //         ))
-                                  // : Text("")
+                               
                                 ],
                               )),
                         ],
@@ -506,7 +445,7 @@ class _LoginState extends State<Login> {
           return validInput(val, 4, 30, "يكون كلمة المرور");
         }
         if (type == "phone") {
-          return validInput(val, 4, 30, "يكون رقم الهاتف", "phone");
+          return validInput(val, 4, 20, "يكون رقم الهاتف", "phone");
         }
       },
       decoration: InputDecoration(

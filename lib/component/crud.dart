@@ -53,13 +53,10 @@ class Crud {
       url = "http://${server_name}/users/users.php";
       data = {"userid": value};
     }
-    if (type == "orders") {
-      url = "http://${server_name}/orders/ordersusers.php";
-      data = {"userid": value};
-    }
+
     if (type == "orderdetails") {
       url = "http://${server_name}/orders/orders_details.php";
-      data = {"orderid": value};
+      data = {"ordersid": value};
     }
     if (type == "searchcats") {
       url = "http://${server_name}/categories/searchcateories.php";
@@ -105,6 +102,8 @@ class Crud {
     }
     if (type == "newpassword") {
       url = "http://${server_name}/newpassword.php";
+    }if (type == "orders") {
+      url = "http://${server_name}/orders/ordersusers.php";
     }
 
     var response = await http.post(url, body: data);
