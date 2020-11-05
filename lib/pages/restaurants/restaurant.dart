@@ -4,7 +4,7 @@ import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemscatres.dart';
 import 'package:provider/provider.dart';
 import 'package:fooddelivery/component/addtocart.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 // My Import
 
 import 'package:fooddelivery/component/crud.dart';
@@ -312,8 +312,13 @@ class _RestaurantState extends State<Restaurant> {
                     child: Card(
                       child: Column(
                         children: [
-                          Image.network(
-                            "http://${crud.server_name}/upload/categories/${snapshot.data[i]['cat_photo']}",
+                          CachedNetworkImage(
+                            imageUrl:
+                                "http://${crud.server_name}/upload/categories/${snapshot.data[i]['cat_photo']}",
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                             height: 70,
                             width: 80,
                             fit: BoxFit.fill,
@@ -441,8 +446,11 @@ class _RestaurantState extends State<Restaurant> {
           children: <Widget>[
             Expanded(
               flex: 1,
-              child: Image.network(
-                "http://${crud.server_name}/upload/items/${items['item_image']}",
+              child: CachedNetworkImage(
+                imageUrl:
+                    "http://${crud.server_name}/upload/items/${items['item_image']}",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
                 height: 90,
               ),
@@ -480,9 +488,10 @@ class _RestaurantState extends State<Restaurant> {
                                         ? addtocart.add(items)
                                         : addtocart.reset(items);
 
-                                        if (addtocart.showalert == true ) {
-                                          showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
-                                        }
+                                    if (addtocart.showalert == true) {
+                                      showdialogallArabic(context, "تنبيه",
+                                          "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد");
+                                    }
                                   },
                                   child: Icon(
                                     Icons.add,

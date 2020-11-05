@@ -5,6 +5,7 @@ import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/pages/items/itemdetails.dart';
 import 'package:provider/provider.dart';
 import 'package:fooddelivery/component/addtocart.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ItemCatRes extends StatefulWidget {
   final catid;
@@ -142,8 +143,11 @@ class _ItemCatResState extends State<ItemCatRes> {
           children: <Widget>[
             Expanded(
               flex: 1,
-              child: Image.network(
-                "http://${crud.server_name}/upload/items/${items['item_image']}",
+              child: CachedNetworkImage(
+                imageUrl:
+                    "http://${crud.server_name}/upload/items/${items['item_image']}",
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
                 fit: BoxFit.cover,
                 height: 100,
               ),
@@ -183,13 +187,12 @@ class _ItemCatResState extends State<ItemCatRes> {
                                           )
                                         : addtocart.reset(
                                             items,
-                                           );
+                                          );
 
-                                             if (addtocart.showalert == true ) {
-                                         
-                                                showdialogallArabic(context, "تنبيه", "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد") ;  
-                                            
-                                            }
+                                    if (addtocart.showalert == true) {
+                                      showdialogallArabic(context, "تنبيه",
+                                          "لا يمكن اضافة وجبة من اكثر من مطعم بوقت واحد");
+                                    }
                                   },
                                   child: Icon(
                                     Icons.add,
