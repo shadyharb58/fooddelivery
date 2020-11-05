@@ -1,3 +1,4 @@
+ 
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/alert.dart';
 import 'package:provider/provider.dart';
@@ -41,13 +42,36 @@ class _CartState extends State<Cart> {
   }
 
   getLocation() async {
-    Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    setState(() {
-      lat = position.latitude;
-      long = position.longitude;
-    });
+   bool isLocationServiceEnabled  = await Geolocator.isLocationServiceEnabled();
+   if (!isLocationServiceEnabled) {
+     showdialogall(context , "تنبيه"  , "خدمة تفعيل الموقع غير مفعلة الرجاء التفعيل") ; 
+     await Future.delayed(Duration(seconds: 2) , () {
+       Navigator.of(context).pushNamed("home") ; 
+     }) ; 
+   }else {
+     
+
+     LocationPermission permission = await Geolocator.checkPermission()  ; 
+
+     if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+           Position position =
+              await  Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          setState(() {
+            lat = position.latitude;
+            long = position.longitude;
+          });
+        print(permission) ; 
+     }else {
+                permission = await Geolocator.requestPermission();
+                showdialogall(context , "تنبيه"  , "لا يمكن استخدام التطبيق من دون اعطاء صلاحية الوصول للموقع") ; 
+                 await Future.delayed(Duration(seconds: 2) , () {
+                  Navigator.of(context).pushNamed("home") ; 
+                }) ;
+     }
+   }
+
+ 
   }
 
   @override
