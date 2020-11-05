@@ -26,9 +26,11 @@ class _CartState extends State<Cart> {
   bool loading = true;
 
   getUser() async {
-    setState(() {
-      loading = true;
-    });
+    if (this.mounted) {
+      setState(() {
+            loading = true;
+          });
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     userid = prefs.getString("id");
@@ -36,9 +38,9 @@ class _CartState extends State<Cart> {
     users.addAll(await crud.readDataWhere("users", userid));
 
     print(users);
-    setState(() {
+       if (this.mounted) { setState(() {
       loading = false;
-    });
+    }); }
   }
 
   getLocation() async {
@@ -57,11 +59,13 @@ class _CartState extends State<Cart> {
      if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
            Position position =
               await  Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-          setState(() {
-            lat = position.latitude;
-            long = position.longitude;
-          });
+        if (this.mounted) {
+        setState(() {
+                    lat = position.latitude;
+                    long = position.longitude;
+                  });
         print(permission) ; 
+        }  
      }else {
                 permission = await Geolocator.requestPermission();
                 showdialogall(context , "تنبيه"  , "لا يمكن استخدام التطبيق من دون اعطاء صلاحية الوصول للموقع") ; 

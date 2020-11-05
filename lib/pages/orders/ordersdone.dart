@@ -21,10 +21,12 @@ class _OrdersDoneState extends State<OrdersDone> {
 
   getuserid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      userid = prefs.getString("id");
-      print(userid);
-    });
+    if (this.mounted) {
+      setState(() {
+            userid = prefs.getString("id");
+            print(userid);
+          });
+    }
     data = {"userid" : userid , "status" : "3"} ; 
   }
 

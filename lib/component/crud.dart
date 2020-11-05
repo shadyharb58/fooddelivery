@@ -24,7 +24,8 @@ class Crud {
     if (type == "restaurantstopselling") {
       url = "http://${server_name}/restaurants/restaurantstopselling.php";
     }
-    var response = await http.get(url);
+    try {
+  var response = await http.get(url);
     if (response.statusCode == 200) {
       print(response.body);
       var responsebody = jsonDecode(response.body);
@@ -32,6 +33,11 @@ class Crud {
     } else {
       print("page not found");
     }
+    }catch(e) {
+        print("error caught : ") ; 
+       print(e) ; 
+    }
+  
   }
 
   readDataWhere(String type, String value) async {
@@ -66,6 +72,7 @@ class Crud {
       url = "http://${server_name}/restaurants/searchrestaurants.php";
       data = {"search": value};
     }
+     try {
     var response = await http.post(url, body: data);
     if (response.statusCode == 200) {
       print(response.body);
@@ -74,6 +81,10 @@ class Crud {
     } else {
       print("page not found");
     }
+     }catch(e) {
+      print("error caught : ") ; 
+       print(e) ; 
+     }
   }
 
   writeData(String type, var data) async {
@@ -105,15 +116,20 @@ class Crud {
     }if (type == "orders") {
       url = "http://${server_name}/orders/ordersusers.php";
     }
+     try {
+          var response = await http.post(url, body: data);
+          if (response.statusCode == 200) {
+            print(response.body);
+            var responsebody = jsonDecode(response.body);
+            return responsebody;
+          } else {
+            print("page Not found");
+          }
+     }catch(e) {
+       print("error caught : ") ; 
+       print(e) ; 
+     }
 
-    var response = await http.post(url, body: data);
-    if (response.statusCode == 200) {
-      print(response.body);
-      var responsebody = jsonDecode(response.body);
-      return responsebody;
-    } else {
-      print("page Not found");
-    }
   }
 
   addOrders(String type, var data) async {

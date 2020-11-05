@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/pages/editaccount.dart';
 import 'package:fooddelivery/pages/homescreen.dart';
@@ -13,8 +15,17 @@ import 'package:fooddelivery/pages/restaurants/restaurant.dart';
 import 'package:fooddelivery/component/addtocart.dart';
 
 import './pages/login.dart';
-
-void main() => runApp(MyApp());
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+        ..maxConnectionsPerHost = 5;
+  }
+}
+void main(){ 
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

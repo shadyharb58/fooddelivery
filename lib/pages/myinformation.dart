@@ -26,9 +26,11 @@ class _MyInformationState extends State<MyInformation> {
     balance = responsebody[0]['user_balance'];
     password = responsebody[0]['password'];
     phone = responsebody[0]['user_phone'];
-    setState(() {
-      
-    });
+    if (this.mounted) {
+      setState(() {
+            
+          });
+    }
   }
 
   checkSignIn() async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CategoriesList extends StatelessWidget {
   final crud;
@@ -17,10 +18,13 @@ class CategoriesList extends StatelessWidget {
       child: Card(
           child: Column(
         children: [
-          Image.network(
-            "http://${crud.server_name}/upload/categories/${categories['cat_photo']}",
-            height: 130,
+          CachedNetworkImage(
+              imageUrl: "http://${crud.server_name}/upload/categories/${categories['cat_photo']}",
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+               height:  130,
           ),
+             
           Text(
             "${categories['cat_name']}",
             style: TextStyle(fontSize: 29, color: Colors.red),

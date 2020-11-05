@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fooddelivery/component/crud.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class RestaurantsList extends StatelessWidget {
   Crud crud = new Crud();
@@ -39,12 +40,16 @@ class RestaurantsList extends StatelessWidget {
                 child: Row(
               children: <Widget>[
                 Expanded(
-                    flex: 2,
-                    child: Image.network(
-                      "http://${crud.server_name}/upload/reslogo/$res_image",
-                      height: 100,
-                      fit: BoxFit.cover,
-                    )),
+                  flex: 2,
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "http://${crud.server_name}/upload/reslogo/$res_image",
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 Expanded(
                     flex: 3,
                     child: Container(

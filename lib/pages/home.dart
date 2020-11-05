@@ -4,6 +4,7 @@ import 'package:fooddelivery/component/searchglobal.dart';
 import 'package:fooddelivery/component/crud.dart';
 import 'package:fooddelivery/pages/items/itemscat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -24,143 +25,150 @@ class _HomeState extends State<Home> {
     var responsebody = await crud.readData("restaurants");
     return responsebody;
   }
-   checkSignIn() async {
+
+  checkSignIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getString("id") == null) {
       Navigator.of(context).pushReplacementNamed("login");
     }
   }
- 
+
   @override
   void initState() {
-    checkSignIn() ; 
+    checkSignIn();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-           Future<bool> onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Are you sure?'),
-            content: Text('Do you want to exit an App'),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
-              ),
-              FlatButton(
-                onPressed: () => exit(0),
-                //  onPressed: () =>   Navigator.of(context).pop(true)  ,
-                child: Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
+    Future<bool> onWillPop() {
+      return showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Are you sure?'),
+              content: Text('Do you want to exit an App'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('No'),
+                ),
+                FlatButton(
+                  onPressed: () => exit(0),
+                  //  onPressed: () =>   Navigator.of(context).pop(true)  ,
+                  child: Text('Yes'),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+    }
+
     double mdw = MediaQuery.of(context).size.width;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: WillPopScope(child: ListView(
-          children: <Widget>[
-            Stack(
+        body: WillPopScope(
+            child: ListView(
               children: <Widget>[
-                buildTopRaduis(mdw),
-                buildTopText(mdw),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[ // ] ))])
-                      Container(
-                        margin: EdgeInsets.only(top: 200),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "الاقسام",
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
+                Stack(
+                  children: <Widget>[
+                    buildTopRaduis(mdw),
+                    buildTopText(mdw),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // ] ))])
+                          Container(
+                            margin: EdgeInsets.only(top: 200),
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "الاقسام",
+                              style: Theme.of(context).textTheme.headline2,
+                            ),
+                          ),
+                          buildListHorizontal(),
+                          Padding(
+                              padding: EdgeInsets.only(top: 10, right: 15),
+                              child: Text(
+                                " المطاعم الاعلى تقييما ",
+                                style: Theme.of(context).textTheme.headline2,
+                              )),
+                          Container(
+                            height: 260,
+                            margin: EdgeInsets.only(top: 10, right: 15),
+                            child: FutureBuilder(
+                              future: crud.readData("restaurantstopselling"),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder: (context, i) {
+                                        return buildImageRestrant(
+                                          mdw,
+                                          snapshot.data[i]['res_image'],
+                                          snapshot.data[i]['res_name'],
+                                          snapshot.data[i]['res_description'],
+                                          snapshot.data[i]['res_id'],
+                                          snapshot.data[i]['res_type'],
+                                          snapshot.data[i]
+                                              ['res_price_delivery'],
+                                          snapshot.data[i]['res_time_delivery'],
+                                        );
+                                      });
+                                }
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              },
+                            ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(top: 10, right: 15),
+                              child: Text(
+                                " المطاعم الاكثر مبيعيا",
+                                style: Theme.of(context).textTheme.headline2,
+                              )),
+                          Container(
+                            height: 270,
+                            margin: EdgeInsets.only(top: 10, right: 15),
+                            child: FutureBuilder(
+                              future: crud.readData("restaurantstopselling"),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder: (context, i) {
+                                        return buildImageRestrant(
+                                          mdw,
+                                          snapshot.data[i]['res_image'],
+                                          snapshot.data[i]['res_name'],
+                                          snapshot.data[i]['res_description'],
+                                          snapshot.data[i]['res_id'],
+                                          snapshot.data[i]['res_type'],
+                                          snapshot.data[i]
+                                              ['res_price_delivery'],
+                                          snapshot.data[i]['res_time_delivery'],
+                                        );
+                                      });
+                                }
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      buildListHorizontal(),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10, right: 15),
-                          child: Text(
-                            " المطاعم الاعلى تقييما ",
-                            style: Theme.of(context).textTheme.headline2,
-                          )),
-                      Container(
-                        height: 260,
-                        margin: EdgeInsets.only(top: 10, right: 15),
-                        child: FutureBuilder(
-                          future: crud.readData("restaurantstopselling"),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, i) {
-                                    return buildImageRestrant(
-                                      mdw,
-                                      snapshot.data[i]['res_image'],
-                                      snapshot.data[i]['res_name'],
-                                      snapshot.data[i]['res_description'],
-                                      snapshot.data[i]['res_id'],
-                                      snapshot.data[i]['res_type'],
-                                      snapshot.data[i]['res_price_delivery'],
-                                      snapshot.data[i]['res_time_delivery'],
-                                    );
-                                  });
-                            }
-                            return Center(child: CircularProgressIndicator());
-                          },
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10, right: 15),
-                          child: Text(
-                            " المطاعم الاكثر مبيعيا",
-                            style:Theme.of(context).textTheme.headline2,
-                          )),
-                      Container(
-                        height: 270,
-                        margin: EdgeInsets.only(top: 10, right: 15),
-                        child: FutureBuilder(
-                          future: crud.readData("restaurantstopselling"),
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (context, i) {
-                                    return buildImageRestrant(
-                                      mdw,
-                                      snapshot.data[i]['res_image'],
-                                      snapshot.data[i]['res_name'],
-                                      snapshot.data[i]['res_description'],
-                                      snapshot.data[i]['res_id'],
-                                      snapshot.data[i]['res_type'],
-                                      snapshot.data[i]['res_price_delivery'],
-                                      snapshot.data[i]['res_time_delivery'],
-                                    );
-                                  });
-                            }
-                            return Center(child: CircularProgressIndicator());
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                )   , 
-                
-            
-
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ), onWillPop: onWillPop ),
+            onWillPop: onWillPop),
       ),
     );
   }
@@ -198,7 +206,9 @@ class _HomeState extends State<Home> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    showSearch(context: context, delegate: DataSearch( type:  "restuarants" , mdw: mdw ));
+                    showSearch(
+                        context: context,
+                        delegate: DataSearch(type: "restuarants", mdw: mdw));
                   })
             ],
           ),
@@ -234,8 +244,14 @@ class _HomeState extends State<Home> {
                     child: Card(
                       child: Column(
                         children: [
-                          Image.network(
-                            "http://${crud.server_name}/upload/categories/${snapshot.data[i]['cat_photo']}",
+                         
+                          CachedNetworkImage(
+                            imageUrl:
+                                "http://${crud.server_name}/upload/categories/${snapshot.data[i]['cat_photo']}",
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                             height: 70,
                             width: 80,
                             fit: BoxFit.fill,
