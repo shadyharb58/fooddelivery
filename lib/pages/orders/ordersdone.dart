@@ -130,7 +130,7 @@ class ListOrders extends StatelessWidget {
                             text: " السعر الكلي : ",
                             style: TextStyle(color: Colors.grey)),
                         TextSpan(
-                            text: " ${orders['orders_total']} د.ك",
+                            text: " ${double.parse(orders['orders_total']).toStringAsFixed(3)} د.ك",
                             style: TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.w600))
                       ])),
